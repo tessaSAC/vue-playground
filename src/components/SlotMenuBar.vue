@@ -12,7 +12,6 @@
 
 <style lang="scss">
 .SlotMenuBar {
-  width: 100%;
   background-color: thistle;
 
   display: flex;
