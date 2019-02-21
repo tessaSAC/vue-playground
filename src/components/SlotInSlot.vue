@@ -1,20 +1,17 @@
 <script>
-import SlotSimple from './SlotSimple'
+import SlotSimple from "./SlotSimple";
 
 export default {
   components: {
-    SlotSimple,
-  },
-}
+    SlotSimple
+  }
+};
 </script>
 
 <template>
-<div class="SlotInSlot">
-  <SlotSimple>
-    <slot name="namedSlot" v-slot="namedSlot" />
-    <slot />
-  </SlotSimple>
-</div>
+  <div class="SlotInSlot">
+    <SlotSimple> <slot name="namedSlot" #namedSlot /> <slot /> </SlotSimple>
+  </div>
 </template>
 
 <style lang="scss" scoped>

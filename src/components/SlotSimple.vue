@@ -1,8 +1,5 @@
 <template>
-<div class="SlotSimple">
-  <slot name="namedSlot" />
-  <slot />
-</div>
+  <div class="SlotSimple"><slot name="namedSlot" /> <slot /></div>
 </template>
 
 <style lang="scss">
@@ -12,4 +9,3 @@
   background-color: papayaWhip;
 }
 </style>
-

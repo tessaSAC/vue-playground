@@ -5,9 +5,9 @@ import SlotMenuBar from "@/components/SlotMenuBar";
 export default {
   components: {
     SlotInSlot,
-    SlotMenuBar,
-  },
-}
+    SlotMenuBar
+  }
+};
 </script>
 
 <template>
@@ -26,7 +26,9 @@ export default {
     </SlotMenuBar>
 
     <SlotInSlot>
-      <h2 v-slot="namedSlot">the Named Slot's content</h2>
+      <template #namedSlot>
+        <h2>the Named Slot's content</h2>
+      </template>
       <p>unnamed slot stuff</p>
     </SlotInSlot>
   </div>

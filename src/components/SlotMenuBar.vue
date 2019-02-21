@@ -1,12 +1,8 @@
 <template>
   <div class="SlotMenuBar">
-    <div class="left">
-      <slot name="left" />
-    </div>
+    <div class="left"><slot name="left" /></div>
 
-    <div class="right">
-      <slot name="right" />
-    </div>
+    <div class="right"><slot name="right" /></div>
   </div>
 </template>
 
@@ -18,7 +14,8 @@
   align-items: center;
   justify-content: space-between;
 
-  .left, .right {
+  .left,
+  .right {
     display: flex;
     align-items: center;
   }
