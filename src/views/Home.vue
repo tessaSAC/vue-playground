@@ -1,3 +1,15 @@
+<script>
+import SlotInSlot from "@/components/SlotInSlot";
+import SlotMenuBar from "@/components/SlotMenuBar";
+
+export default {
+  components: {
+    SlotInSlot,
+    SlotMenuBar,
+  },
+}
+</script>
+
 <template>
   <div class="Home">
     <SlotMenuBar>
@@ -12,18 +24,13 @@
         <div class="menuItem tomato" />
       </template>
     </SlotMenuBar>
+
+    <SlotInSlot>
+      <h2 v-slot="namedSlot">the Named Slot's content</h2>
+      <p>unnamed slot stuff</p>
+    </SlotInSlot>
   </div>
 </template>
-
-<script>
-import SlotMenuBar from "@/components/SlotMenuBar";
-
-export default {
-  components: {
-    SlotMenuBar
-  }
-};
-</script>
 
 <style lang="scss" scoped>
 .Home {
