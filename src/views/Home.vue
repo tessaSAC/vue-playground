@@ -1,13 +1,13 @@
 <script>
-import SlotInSlot from "@/components/SlotInSlot";
-import SlotMenuBar from "@/components/SlotMenuBar";
+import SlotInSlot from '@/components/SlotInSlot'
+import SlotMenuBar from '@/components/SlotMenuBar'
 
 export default {
   components: {
     SlotInSlot,
-    SlotMenuBar
-  }
-};
+    SlotMenuBar,
+  },
+}
 </script>
 
 <template>
