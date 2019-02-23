@@ -1,10 +1,10 @@
 <script>
 import { timeout } from 'q';
 export default {
-  model: {
-    prop: 'fakeValue',
-    event: 'input'
-  },
+  // model: {
+  //   prop: 'value',
+  //   event: 'input'
+  // },
 
   props: {
     // value: {    // prop value doesn't change (at least in dev tools) when name is not `value` -- parent can still see changed data but not self fsr
@@ -12,7 +12,7 @@ export default {
     //   default: '',
     // },
 
-    fakeValue: {  // not specifying type or using props' array form works fine for `null` and string initial values but not `undefined`
+    value: {  // not specifying type or using props' array form works fine for `null` and string initial values but not `undefined`
       type: String,
       default: '',
     },  // using `model` appears to resolve the issue
@@ -21,20 +21,20 @@ export default {
 
   watch: {
     // update input field to reflect programmatic changes:
-    fakeValue() {
+    value() {
       this.updateDOM()
     }
   },
 
-  created() { console.log(this.fakeValue) },  // this.value doesn't exist
+  created() { console.log(this.value) },  // this.value doesn't exist
 
   // render passed in search value
   mounted() { this.updateDOM() },
 
   methods: {
     updateDOM() {
-      if(this.$refs.customInput.value === this.fakeValue) return  // don't update if the DOM matches the current prop
-      this.$refs.customInput.value = this.fakeValue
+      if(this.$refs.customInput.value === this.value) return  // don't update if the DOM matches the current prop
+      this.$refs.customInput.value = this.value
     },
 
     updateValue(e) {

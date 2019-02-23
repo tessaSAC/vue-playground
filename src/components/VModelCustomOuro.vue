@@ -54,11 +54,12 @@ export default {
 /> -->
 
 <!-- TODO: check if this works if prop is value -->
+<!-- Looks like it does whether with `:value="outerFakeValue" or v-model but says I'm mutating the `value` prop in VModelCustom somehow (???) -->
 <VModelCustom
     ref="customInput"
     class="VModelCustomOuro"
     type="text"
-    :fakeValue="outerFakeValue"
+    v-model="outerFakeValue"
     @input="updateOuterPropValue"
 />
 </template>
