@@ -1,13 +1,16 @@
 <script>
+import RadioList from '../components/RadioList'
 import VModelCustom from '../components/VModelCustom'
 
 export default {
   components: {
+    RadioList,
     VModelCustom,
   },
 
   data: _ => ({
     inputVModelCustom: '',
+    radioSelected: '2',
   }),
 }
 </script>
@@ -20,6 +23,16 @@ export default {
         <h3>Parent component input:</h3>
         <p>{{ inputVModelCustom }}</p>
       </div>
+
+      <!-- <input
+        id="one"
+        ref="one"
+        value="one"
+        type="radio"
+        v-model="radioSelected"
+      >
+      <label for="one">one</label> -->
+      <RadioList v-model="radioSelected" />
     </div>
   </div>
 </template>
