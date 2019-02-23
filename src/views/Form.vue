@@ -11,7 +11,7 @@ export default {
   },
 
   data: _ => ({
-    inputVModelCustom: '',
+    inputVModelCustom: 'passed in prop',
     inputVModelCustomOuro: '',
     radioSelected: '2',
   }),

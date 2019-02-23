@@ -2,21 +2,35 @@
 import { timeout } from 'q';
 export default {
   props: {
-    value: {  // prop value doesn't change (at least in dev tools) when name is not `value` -- parent can still see changed data but not self fsr
-      type: String,
-      default: '',
-    },
+    // value: {    // prop value doesn't change (at least in dev tools) when name is not `value` -- parent can still see changed data but not self fsr
+    //   type: String,
+    //   default: '',
+    // },
+
+    fakeValue: '',  // using `model` appears to resolve the issue
+  },
+
+  model: {
+    prop: 'fakeValue',
+    event: 'input'
   },
 
   watch: {
     // update input field to reflect programmatic changes:
-    value(newVal) {
-      if(this.$refs.customInput.value === this.value) return  // don't update if the DOM matches the current prop
-      this.$refs.customInput.value = this.value
+    fakeValue() {
+      this.updateDOM()
     }
   },
 
+  // render passed in search value
+  mounted() { this.updateDOM() },
+
   methods: {
+    updateDOM() {
+      if(this.$refs.customInput.value === this.fakeValue) return  // don't update if the DOM matches the current prop
+      this.$refs.customInput.value = this.fakeValue
+    },
+
     updateValue(e) {
       // this.$emit('input', this.$refs.customInput.value) // can't use this.value directly -- will not update this way idky
       // I wonder if this is the right way to do it though
