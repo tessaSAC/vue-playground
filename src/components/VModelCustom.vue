@@ -1,6 +1,11 @@
 <script>
 import { timeout } from 'q';
 export default {
+  model: {
+    prop: 'fakeValue',
+    event: 'input'
+  },
+
   props: {
     // value: {    // prop value doesn't change (at least in dev tools) when name is not `value` -- parent can still see changed data but not self fsr
     //   type: String,
@@ -12,11 +17,6 @@ export default {
       default: '',
     },  // using `model` appears to resolve the issue
     // learned `someProp: someDefaultValue` doesn't work today -- sad day
-  },
-
-  model: {
-    prop: 'fakeValue',
-    event: 'input'
   },
 
   watch: {
