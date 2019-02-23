@@ -1,4 +1,6 @@
 <script>
+// Possible TODO: figure out why Form name (was never in component options except when I was trying to figure this out) stopped working and after cutting and repasting it worked again
+
 import RadioList from '../components/RadioList'
 import VModelCustom from '../components/VModelCustom'
 import VModelCustomOuro from '../components/VModelCustomOuro'
@@ -26,26 +28,26 @@ export default {
 </script>
 
 <template>
-  <div class="Form">
-    <div class="inputs">
-      <h3>Custom Input</h3>
-      <VModelCustom v-model="inputVModelCustom" />
-      <div class="output">
-        <h3>Parent component input:</h3>
-        <p>{{ inputVModelCustom }}</p>
-      </div>
-
-      <button @click="inputVModelCustom = 'change it again'">change it again</button>
-
-      <h3>Recursive Custom Input</h3>
-      <VModelCustomOuro v-model="inputVModelCustomOuro" />
-      <div class="output">
-        <h3>Parent component input:</h3>
-        <p>{{ inputVModelCustomOuro }}</p>
-      </div>
-      <button @click="inputVModelCustomOuro = 'some recursive val'">change it again</button>
+<div class="Form">
+  <div class="inputs">
+    <h3>Custom Input</h3>
+    <VModelCustom v-model="inputVModelCustom" />
+    <div class="output">
+      <h3>Parent component input:</h3>
+      <p>{{ inputVModelCustom }}</p>
     </div>
+
+    <button @click="inputVModelCustom = 'change it again'">change it again</button>
+
+    <h3>Recursive Custom Input</h3>
+    <VModelCustomOuro v-model="inputVModelCustomOuro" />
+    <div class="output">
+      <h3>Parent component input:</h3>
+      <p>{{ inputVModelCustomOuro }}</p>
+    </div>
+    <button @click="inputVModelCustomOuro = 'some recursive val'">change it again</button>
   </div>
+</div>
 </template>
 
 <style lang="scss" scoped>
