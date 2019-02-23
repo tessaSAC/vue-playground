@@ -6,24 +6,18 @@ export default {
     VModelCustom,
   },
 
-  // props: {
-  //   outerProp: {
-  //     type: String,
-  //     default: '',
-  //   },
-  // },
-
-  data() {
-    return {
-      outerData: this.outerProp,
-      temp: '',
-    }
+  props: {
+    outerProp: {
+      type: String,
+      default: '',
+    },
   },
 
   methods: {
-    updateOuterPropValue(e) {
-      console.log(e.value)
-      this.$emit('input', e.value)  // fsr this cannot be e.target.value -- I think because it is getting the event emitted by the component, not the input and that's just the payload
+    updateOuterPropValue(newInput) {
+      // this.$emit('input', e.value)  // fsr this cannot be e.target.value -- I think because it is getting the event emitted by the component, not the input and that's just the payload
+
+      this.$emit('input', newInput)  // now it's really just the data
     },
   },
 }
@@ -49,7 +43,7 @@ export default {
 <VModelCustom
     class="VModelCustomOuro"
     type="text"
-    v-model="temp"
+    :propValue="outerProp"
     @input="updateOuterPropValue"
 />
 </template>

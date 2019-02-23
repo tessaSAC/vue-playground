@@ -29,8 +29,7 @@ export default {
       </div>
 
       <h3>Recursive Custom Input</h3>
-      <!-- <VModelCustomOuro v-model="inputVModelCustomOuro" /> -->
-      <VModelCustomOuro></VModelCustomOuro>
+      <VModelCustomOuro v-model="inputVModelCustomOuro" />
       <div class="output">
         <h3>Parent component input:</h3>
         <p>{{ inputVModelCustomOuro }}</p>
