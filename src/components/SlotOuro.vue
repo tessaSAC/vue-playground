@@ -9,13 +9,13 @@ export default {
 </script>
 
 <template>
-  <div class="SlotInSlot">
+  <div class="SlotOuro">
     <SlotSimple> <slot name="namedSlot" #namedSlot /> <slot /> </SlotSimple>
   </div>
 </template>
 
 <style lang="scss" scoped>
-.SlotInSlot {
+.SlotOuro {
   width: 20vw;
   height: 20vw;
   background-color: coral;

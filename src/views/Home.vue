@@ -1,10 +1,10 @@
 <script>
-import SlotInSlot from '@/components/SlotInSlot'
+import SlotOuro from '@/components/SlotOuro'
 import SlotMenuBar from '@/components/SlotMenuBar'
 
 export default {
   components: {
-    SlotInSlot,
+    SlotOuro,
     SlotMenuBar,
   },
 }
@@ -25,12 +25,12 @@ export default {
       </template>
     </SlotMenuBar>
 
-    <SlotInSlot>
+    <SlotOuro>
       <template #namedSlot>
         <h2>the Named Slot's content</h2>
       </template>
       <p>unnamed slot stuff</p>
-    </SlotInSlot>
+    </SlotOuro>
   </div>
 </template>
 
