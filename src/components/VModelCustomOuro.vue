@@ -53,6 +53,7 @@ export default {
     @input="updateOuterPropValue"
 /> -->
 
+<!-- TODO: check if this works if prop is value -->
 <VModelCustom
     ref="customInput"
     class="VModelCustomOuro"
