@@ -1,4 +1,6 @@
 <script>
+// https://vuejs.org/v2/api/#model
+
 export default {
   model: {
     prop: 'checked',
