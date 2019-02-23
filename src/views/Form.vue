@@ -15,13 +15,12 @@ export default {
   data: _ => ({
     inputVModelCustom: 'passed in prop',
     inputVModelCustomOuro: 'passed in prop',
-    radioSelected: '2',
   }),
 
   mounted() {
     setTimeout(() => {
-      this.inputVModelCustom = "delayed prop change"
-      this.inputVModelCustomOuro = "delayed prop change"
+      this.inputVModelCustom = 'delayed prop change'
+      this.inputVModelCustomOuro = 'delayed prop change'
     }, 500);
   }
 }

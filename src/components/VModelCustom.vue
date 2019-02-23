@@ -12,9 +12,9 @@ export default {
     //   default: '',
     // },
 
-    fakeValue: {  // not specifying type or using props' array form works fine for `null` and string initial values but not `undefined`
-      type: String,
-      default: '',
+    fakeValue: {  // not specifying default or using props' array form works fine for `null` and string initial values but not `undefined`
+      type: String,  // optional
+      default: '',  // this is needed to avoid rendering `undefined`
     },  // using `model` appears to resolve the issue
     // learned `someProp: someDefaultValue` doesn't work today -- sad day
   },
