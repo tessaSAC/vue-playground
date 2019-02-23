@@ -15,6 +15,12 @@ export default {
     inputVModelCustomOuro: '',
     radioSelected: '2',
   }),
+
+  mounted() {
+    setTimeout(() => {
+      this.inputVModelCustom = "delayed prop change"
+    }, 500);
+  }
 }
 </script>
 
@@ -27,6 +33,8 @@ export default {
         <h3>Parent component input:</h3>
         <p>{{ inputVModelCustom }}</p>
       </div>
+
+      <button @click="inputVModelCustom = 'change it again'">change it again</button>
 
       <h3>Recursive Custom Input</h3>
       <VModelCustomOuro v-model="inputVModelCustomOuro" />

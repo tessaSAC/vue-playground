@@ -1,18 +1,26 @@
 <script>
+import { timeout } from 'q';
 export default {
   props: {
-    propValue: {
+    value: {
       type: String,
       default: '',
     },
   },
 
+  watch: {
+    // update input field to reflect programmatic changes:
+    value(newVal) {
+      if(this.$refs.customInput.value === this.value) return  // don't update if the DOM matches the current prop
+      this.$refs.customInput.value = this.value
+    }
+  },
+
   methods: {
-    updatePropValue(e) {
-      // this.$emit('input', this.$refs.customInput.value) // can't use this.propValue directly -- will not update this way idky
+    updateValue(e) {
+      // this.$emit('input', this.$refs.customInput.value) // can't use this.value directly -- will not update this way idky
       // I wonder if this is the right way to do it though
       // source: https://alligator.io/vuejs/add-v-model-support
-
       this.$emit('input', e.target.value)  // this is equivalent...I think?
 
       // https://scotch.io/tutorials/add-v-model-support-to-custom-vuejs-component -- can't figure out why this works in the code pen but not here -- is the functional component different somehow?
@@ -26,8 +34,7 @@ export default {
   <input
     ref="customInput"
     type="text"
-    :value="propValue"
-    @input="updatePropValue"
+    @input="updateValue"
   />
 
   <!--
