@@ -2,7 +2,7 @@
 import { timeout } from 'q';
 export default {
   props: {
-    value: {  // doesn't auto-update when name is not `value`
+    value: {  // prop value doesn't change (at least in dev tools) when name is not `value` -- parent can still see changed data but not self fsr
       type: String,
       default: '',
     },
