@@ -53,13 +53,16 @@ export default {
     @input="updateOuterPropValue"
 /> -->
 
-<!-- TODO: check if this works if prop is value -->
-<!-- Looks like it does whether with `:value="outerFakeValue" or v-model but says I'm mutating the `value` prop in VModelCustom somehow (???) -->
+<!--
+  TODO: revisit this experiment in the future:
+  ~check if this works if prop is value~
+  Looks like it does whether with `:value="outerFakeValue" or v-model but says I'm mutating the `value` prop in VModelCustom somehow (???)
+-->
 <VModelCustom
     ref="customInput"
     class="VModelCustomOuro"
     type="text"
-    v-model="outerFakeValue"
+    :fakeValue="outerFakeValue"
     @input="updateOuterPropValue"
 />
 </template>
