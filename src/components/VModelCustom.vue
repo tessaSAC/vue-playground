@@ -2,7 +2,7 @@
 import { timeout } from 'q';
 export default {
   props: {
-    value: {
+    value: {  // doesn't auto-update when name is not `value`
       type: String,
       default: '',
     },

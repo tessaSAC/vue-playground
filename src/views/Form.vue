@@ -19,6 +19,7 @@ export default {
   mounted() {
     setTimeout(() => {
       this.inputVModelCustom = "delayed prop change"
+      this.inputVModelOuro = "delayed prop change"
     }, 500);
   }
 }
