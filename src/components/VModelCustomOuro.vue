@@ -6,14 +6,27 @@ export default {
     VModelCustom,
   },
 
-  props: {
-    outerProp: {
-      type: String,
-      default: '',
-    },
+  // Looks like I don't need to specify default value to avoid rendering `undefined` here; I guess the child takes care of it??
+  props: [ 'outerFakeValue' ],  // doesn't work with `value` fsr
+
+  model: {
+    prop: 'outerFakeValue',
+    event: 'input',
+  },
+
+  // fsr I don't need `mounted` here -- the child input takes care of it somehow...
+
+  watch: {
+    outerFakeValue() { this.updateDOM() }
   },
 
   methods: {
+    updateDOM() {
+      // confirmed ref is not child ref of same ref name
+      if(this.$refs.customInput.value === this.outerFakeValue) return
+      this.$refs.customInput.value = this.outerFakeValue
+    },
+
     updateOuterPropValue(newInput) {
       // this.$emit('input', e.value)  // fsr this cannot be e.target.value -- I think because it is getting the event emitted by the component, not the input and that's just the payload
 
@@ -41,9 +54,10 @@ export default {
 /> -->
 
 <VModelCustom
+    ref="customInput"
     class="VModelCustomOuro"
     type="text"
-    :propValue="outerProp"
+    :fakeValue="outerFakeValue"
     @input="updateOuterPropValue"
 />
 </template>

@@ -12,14 +12,14 @@ export default {
 
   data: _ => ({
     inputVModelCustom: 'passed in prop',
-    inputVModelCustomOuro: '',
+    inputVModelCustomOuro: 'passed in prop',
     radioSelected: '2',
   }),
 
   mounted() {
     setTimeout(() => {
       this.inputVModelCustom = "delayed prop change"
-      this.inputVModelOuro = "delayed prop change"
+      this.inputVModelCustomOuro = "delayed prop change"
     }, 500);
   }
 }
@@ -43,6 +43,7 @@ export default {
         <h3>Parent component input:</h3>
         <p>{{ inputVModelCustomOuro }}</p>
       </div>
+      <button @click="inputVModelCustomOuro = 'some recursive val'">change it again</button>
     </div>
   </div>
 </template>

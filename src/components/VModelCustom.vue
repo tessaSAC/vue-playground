@@ -7,7 +7,11 @@ export default {
     //   default: '',
     // },
 
-    fakeValue: '',  // using `model` appears to resolve the issue
+    fakeValue: {  // not specifying type or using props' array form works fine for `null` and string initial values but not `undefined`
+      type: String,
+      default: '',
+    },  // using `model` appears to resolve the issue
+    // learned `someProp: someDefaultValue` doesn't work today -- sad day
   },
 
   model: {
@@ -21,6 +25,8 @@ export default {
       this.updateDOM()
     }
   },
+
+  created() { console.log(this.fakeValue) },  // this.value doesn't exist
 
   // render passed in search value
   mounted() { this.updateDOM() },
@@ -50,6 +56,7 @@ export default {
     type="text"
     @input="updateValue"
   />
+  <!-- don't need to pass in :value for `value` prop... and model props as well I guess??? -->
 
   <!--
     this doesn't work; hard to tell if it's because it's not recommended or the timing/hierarchy is off or I'm doing something wrong
