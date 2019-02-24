@@ -23,7 +23,7 @@ export default {
   methods: {
     updateDOM() {
       // confirmed ref is not child ref of same ref name
-      if(this.$refs.customInput.value === this.outerFakeValue) return
+      if(this.$refs.customInput.value === this.outerFakeValue) return  // TODO: check if I need this....
       this.$refs.customInput.value = this.outerFakeValue
     },
 
