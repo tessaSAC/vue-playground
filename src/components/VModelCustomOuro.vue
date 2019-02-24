@@ -55,8 +55,10 @@ export default {
 
 <!--
   TODO: revisit this experiment in the future:
-  ~check if this works if prop is value~
+  ~CHECK IF THIS WORKS IF PROP IS VALUE~
   Looks like it does whether with `:value="outerFakeValue" or v-model but says I'm mutating the `value` prop in VModelCustom somehow (???)
+
+  Update: Got it working on DRanks with Vuetify -- not sure if this is Vuetify related or because I don't need to watch/mounted/updateDOM -- can't remember if I tried removing this or not.
 -->
 <VModelCustom
     ref="customInput"
