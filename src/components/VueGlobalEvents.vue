@@ -27,6 +27,9 @@ export default {
 .VueGlobalEvents {
   background: tan;
   height: 30vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
 }
 </style>
