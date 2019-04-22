@@ -1,8 +1,8 @@
 <script>
-import GlobalEvents from 'vue-global-events'
+// import GlobalEvents from 'vue-global-events'
 
 export default {
-  components: { GlobalEvents, },
+  // components: { GlobalEvents, },
 
   data: _ => ({
     clickDetected: false,
@@ -16,18 +16,19 @@ export default {
   }),
 
   methods: {
-    emitOutsideClick(e) {
-      if (!this.$el.contains(e.target)) this.$el.dispatchEvent(new Event('click', { ...e, target: this.$el }))
-    },
+    // emitOutsideClick(e) {
+      // console.dir(event)
+      // if (!this.$el.contains(e.target)) this.$el.dispatchEvent(new MouseEvent('click', { ...e, target: this.$el, isTrusted: true, }))
+    // },
   },
 }
 </script>
 
 <template>
 <div class="VueGlobalEvents" @click="clickDetected = true">
-  <GlobalEvents @click="emitOutsideClick" />
+  <!-- <GlobalEvents @click="emitOutsideClick" /> -->
 
-  <h1 v-if="clickDetected">clicked!</h1>
+  <!-- <h1 v-if="clickDetected">clicked!</h1> -->
 
   <v-menu offset-y>
     <template v-slot:activator="{ on }">
