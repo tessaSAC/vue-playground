@@ -1,0 +1,115 @@
+<script>
+import * as d3 from 'd3'
+import * as venn from 'venn.js'
+
+export default {
+  data: (_) => ({
+    chart: venn
+      .VennDiagram()
+      .width(500)
+      .height(500),
+    //   .wrap(false)  // nb: this doesn't help and can be harder to read; TODO: Ask Jared what he prefers
+
+    sets: [
+      { sets: [0], label: 'also a too long longish label', size: 28 },
+      { sets: [1], label: 'Treat', size: 5000 },
+      { sets: [2], label: 'Anti-CCP', size: 2000 },
+      { sets: [3], label: 'very longish long label', size: 106 },
+      { sets: [0, 1], size: 1 },
+      { sets: [0, 2], size: 1 },
+      { sets: [0, 3], size: 14 },
+      { sets: [1, 2], size: 6, label: 'test very large overlap heyo' },
+      { sets: [1, 3], size: 0 },
+      { sets: [2, 3], size: 1 },
+      { sets: [0, 2, 3], size: 1 },
+      { sets: [0, 1, 2], size: 0 },
+      { sets: [0, 1, 3], size: 0 },
+      { sets: [1, 2, 3], size: 0 },
+      { sets: [0, 1, 2, 3], size: 0 },
+    ],
+  }),
+
+  mounted() {
+    const vennDig = d3.select('#inverted')
+    vennDig.datum(this.sets).call(this.chart)
+    d3.selectAll('#inverted .venn-circle path').style('fill-opacity', 0.3)
+
+    const tooltip = d3
+      .select('body')
+      .append('div')
+      .attr('class', 'venntooltip') // TODO: replace with tooltip class in app
+
+    const getHoveredSelection = this.getHoveredSelection
+
+    vennDig
+      .selectAll('g')
+      .on('mouseover', function(dataset, i) {
+        // sort all the areas relative to the current item
+        // nb: not sure of relevance of this function but not all areas have border highlight without this
+        venn.sortAreas(vennDig, dataset)
+
+        if (!dataset.label) return // don't show tooltip if there's no label
+
+        // display tooltip with label
+        tooltip
+          .transition()
+          .duration(400)
+          .style('opacity', 0.9)
+
+        tooltip.text(dataset.label)
+
+        // highlight hovered dataset
+        getHoveredSelection(this)
+          .style('fill-opacity', dataset.sets.length == 1 ? 0.4 : 0.1)
+          .style('stroke', 'white')
+          .style('stroke-opacity', 1)
+      })
+
+      // place tooltip
+      .on('mousemove', function() {
+        tooltip
+          .style('left', d3.event.pageX + 'px')
+          .style('top', d3.event.pageY - 28 + 'px')
+      })
+
+      // hide tooltip
+      .on('mouseout', function(dataset, i) {
+        tooltip
+          .transition()
+          .duration(400)
+          .style('opacity', 0)
+
+        getHoveredSelection(this)
+          .style('fill-opacity', dataset.sets.length == 1 ? 0.25 : 0.0)
+          .style('stroke-opacity', 0)
+      })
+  },
+
+  methods: {
+    getHoveredSelection(context) {
+      return d3
+        .select(context)
+        .transition('tooltip')
+        .duration(400)
+        .select('path')
+    },
+  },
+}
+</script>
+
+<template>
+  <div id="inverted" ref="vennDiagram"/>
+</template>
+
+<style lang="scss">
+.venntooltip {
+  position: absolute;
+  text-align: center;
+  background: #333;
+  color: #ddd;
+  padding: 5px;
+  border: 0px;
+  border-radius: 8px;
+  opacity: 0;
+}
+</style>
