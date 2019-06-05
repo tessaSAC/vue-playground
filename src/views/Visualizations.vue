@@ -1,12 +1,16 @@
 <script>
 import VennJs from '../components/VennJs'
+import VennJsTwoCircles from '../components/VennJsTwoCircles'
 
 export default {
-  components: { VennJs },
+  components: { VennJs, VennJsTwoCircles },
 }
 </script>
 
 <template>
-  <VennJs/>
+  <div>
+    <VennJs/>
+    <VennJsTwoCircles/>
+  </div>
 </template>
 
