@@ -7,13 +7,13 @@ export default {
     chart: venn
       .VennDiagram()
       .width(500)
-      .height(500)
+      .height(300)
       .wrap(false), // nb: this doesn't help and can be harder to read; TODO: Ask Jared what he prefers
 
     sets: [
-      { sets: [0], label: 'Size 28', size: 28 },
-      { sets: [1], label: 'Size 5k', size: 5000 },
-      { sets: [0, 1], size: 5, label: 'Size 5' },
+      { sets: [0], label: 'Size: xxxxx.xm', name: 'orange group', size: 1 },
+      { sets: [1], label: 'Size: xxxx.xm', name: 'blue group', size: 200 },
+      { sets: [0, 1], size: 0.2, label: 'Size: xxxx.xm', name: 'overlap' },
     ],
   }),
 
@@ -44,7 +44,7 @@ export default {
           .duration(400)
           .style('opacity', 0.9)
 
-        tooltip.text(dataset.label)
+        tooltip.text(dataset.name)
 
         // highlight hovered dataset
         getHoveredSelection(this)
