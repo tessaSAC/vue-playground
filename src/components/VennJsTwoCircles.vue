@@ -11,13 +11,14 @@ export default {
       .wrap(false),
 
     sets: [
-      { sets: [0], label: 'Size: 0xxxx.xm', name: 'orange group', size: 1 },
-      { sets: [1], label: 'Size: 1xxx.xm', name: 'blue group', size: 200 },
+      { sets: [0], label: 'Size: 0xxxx.xm', name: 'blue group', size: 1 },
+      { sets: [1], label: 'Size: 1xxx.xm', name: 'orange group', size: 200 },
       { sets: [0, 1], size: 0.2, label: 'Size: 2xxxx.xm', name: 'overlap' },
     ],
   }),
 
   mounted() {
+    this.chart.orientationOrder(function (a, b) { return a.setid.localeCompare(b.setid); })
     const vennCompareTwo = d3.select('#vennCompareTwo')
     vennCompareTwo.datum(this.sets).call(this.chart)
     d3.selectAll('#vennCompareTwo .venn-circle path').style('fill-opacity', 0.3)
@@ -88,17 +89,44 @@ export default {
 
     deOverlapLabels() {
       const textLabels = d3.selectAll('#vennCompareTwo .label') // get all Venn diagram labels
-      const alpha = 0.5 // how much to de-overlap labels by each loop
-      const spacing = 10 // the minimum amount of vertical space between each label
+      const shiftIncrement = 0.5 // how much to de-overlap labels by each loop
+      const theSpaceBetween = 12 // the minimum amount of vertical space between each label
 
-      let again = false // whether overlap needs to be recalculated
+      let shiftAgain = false
 
-      textLabels.each(function(_, idx) {
-        if(idx > textLabels.length - 2) return  // don't compare labels if there aren't two left to compare
+      textLabels.each(function(d, i) {
+        function shiftLabels() {
+          // refresh coordinates
+          labelA_y = +labelA.attr('y')
+          labelB_y = +labelB.attr('y')
 
-        const contextA = this,
-              shiftIncrement = 0.5,
-              theSpaceBetween = 10
+          delta_y = labelA_y - labelB_y
+
+          if(Math.abs(delta_y) > theSpaceBetween) return  // don't do anything if the labels are already vertically spaced apart enough
+
+          if(labelA_left <= labelB_left && labelA_right <= labelB_left) return  // if labelA is completely to the left of labelB return
+          if(labelB_left <= labelA_left && labelB_right < labelA_left) return // if labelB is completely to the left of labelA return
+          // otherwise the labels horizontally overlap
+
+
+          shiftAgain = true
+          shiftDirection = delta_y > 0 ? 1 : -1
+          shiftAmount = shiftDirection * shiftIncrement
+
+          console.log(shiftAmount)
+
+          console.log(labelA_y + shiftAmount)
+
+          labelA.attr('y', labelA_y + shiftAmount)
+          labelB.attr('y', labelB_y - shiftAmount)
+
+          console.log('after', labelA.attr('y'))
+          console.log('after', labelB.attr('y'))
+
+          if(shiftAgain) setTimeout(shiftLabels, 20)  // check if we need to shift labels even more
+        }
+
+        const contextA = this
 
         let labelA,
             labelA_left,
@@ -111,7 +139,6 @@ export default {
             labelB_y,
 
             delta_y,
-            shiftAgain,
             shiftAmount,
             shiftDirection,
 
@@ -119,68 +146,30 @@ export default {
 
         labelA = d3.select(contextA)
         tempNodeRef = labelA.node().getBBox()
+
         labelA_left = tempNodeRef.x
         labelA_right = tempNodeRef.x + tempNodeRef.width
-        labelA_y = tempNodeRef.y
+        labelA_y = +labelA.attr('y')
 
         ;[ labelA_left, labelA_right, labelA_y ] = [ tempNodeRef.x, (tempNodeRef.x + tempNodeRef.width), tempNodeRef.y ]
         // NB from Di Fan: can't start semi-colonless code with { or [
 
-        textLabels.each(function() {
+        textLabels.each(function(d) {
           const contextB = this
 
-          labelB = d3.select(contextB)  // idgy this is never the same as labelA.....
+          if(contextA === contextB) return  // the context is the same, therefore the element will be the same
+
+          labelB = d3.select(contextB)
           tempNodeRef = labelB.node().getBBox()
+
           labelB_left = tempNodeRef.x,
           labelB_right = tempNodeRef.x + tempNodeRef.width
-          labelB_y = tempNodeRef.y
+          labelB_y = +labelB.attr('y')
 
-          delta_y = labelA_y - labelB_y
-          if(Math.abs(delta_y) > theSpaceBetween) return  // don't do anything if the labels are already vertically spaced apart enough
-
-          if(labelA_right > labelB_left && labelA_left < labelB_right || labelB_right > labelA_left && labelB_left < labelA_right) {  // if the labels horizontally overlap
-            console.log(labelA_right, labelB_left)
-            console.log(labelA_left, labelB_right)
-            console.dir(labelA.node())
-            console.dir(labelB.node())
-
-            shiftAgain = true
-            shiftDirection = delta_y > 0 ? 1 : -1
-            shiftAmount = shiftDirection * shiftIncrement
-
-            labelA.attr('y', labelA_y + shiftAmount)
-            labelB.attr('y', labelB_y - shiftAmount)
-          }
-
-          if(again) setTimeout(this.deOverlapLabels, 20)  // check if we need to shift labels even more
+          shiftLabels()
         })
 
-
-        // textLabels.each(function(d, j) {
-        //   const b = this
-        //   if (a === b) return // a & b are the same element and don't collide.
-
-        //   const db = d3.select(b)
-
-        //   // Now let's calculate the distance between these elements.
-        //   const y2 = db.attr('y')
-        //   const deltaY = y1 - y2
-
-        //   if (Math.abs(deltaY) > spacing) return // If spacing is greater than our specified spacing, they don't collide.
-
-        //   // If the labels collide, we'll push each of the two labels up and down a little bit.
-        //   again = true
-
-        //   const sign = deltaY > 0 ? 1 : -1
-        //   const adjust = sign * alpha
-
-        //   da.attr('y', +y1 + adjust)
-        //   db.attr('y', +y2 - adjust)
-        // })
       })
-
-      // Adjust our line leaders here so that they follow the labels.
-      if (again) setTimeout(this.deOverlapLabels, 20)
     },
   },
 }

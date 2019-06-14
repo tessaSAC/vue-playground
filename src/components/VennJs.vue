@@ -102,7 +102,7 @@ export default {
       // https://web.archive.org/web/20140609125438/http://blog.safaribooksonline.com/2014/03/11/solving-d3-label-placement-constraint-relaxing
       // https://web.archive.org/web/20140609093256/http://jsfiddle.net/thudfactor/B2WBU/
 
-      const textLabels = d3.selectAll('.label') // get all Venn diagram labels
+      const textLabels = d3.selectAll('#inverted .label') // get all Venn diagram labels
       const alpha = 0.5 // How fast to animate labels de-overlapping
       const spacing = 10 // Label line height
 
