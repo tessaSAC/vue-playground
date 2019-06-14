@@ -90,16 +90,16 @@ export default {
     deOverlapLabels() {
       // NB: when the circles have total or almost total overlap, Venn.js moves the labels around automatically, i.e. this method is not responsible for their weird placement
 
-      const textLabels = d3.selectAll('#vennCompareTwo .label') // get all Venn diagram labels
-      const shiftIncrement = 0.5 // how much to de-overlap labels by each loop
-      const theSpaceBetween = 12 // the minimum amount of vertical space between each label
+      const textLabels = d3.selectAll('#vennCompareTwo .label')  // get all Venn diagram labels
+      const shiftIncrement = 0.5  // how much to de-overlap labels by each loop
+      const theSpaceBetween = 12  // the minimum amount of vertical space between each label
 
       let delta_y,
           shiftAgain = false,
           shiftAmount,
           shiftDirection
 
-      textLabels.each(function(d, i) {
+      textLabels.each(function() {
         const contextA = this
 
         let labelA,
@@ -121,7 +121,7 @@ export default {
         labelA_right = tempNodeRef.x + tempNodeRef.width
         labelA_y = +labelA.attr('y')
 
-        textLabels.each(function(d) {
+        textLabels.each(function() {
           const contextB = this
 
           if(contextA === contextB) return  // the context is the same, therefore the element will be the same
@@ -129,12 +129,12 @@ export default {
           labelB = d3.select(contextB)
           tempNodeRef = labelB.node().getBoundingClientRect()
 
-          labelB_left = tempNodeRef.x,
+          labelB_left = tempNodeRef.x
           labelB_right = tempNodeRef.x + tempNodeRef.width
           labelB_y = +labelB.attr('y')
 
           if(labelA_left <= labelB_left && labelA_right <= labelB_left) return  // if labelA is completely to the left of labelB return
-          if(labelB_left <= labelA_left && labelB_right < labelA_left) return // if labelB is completely to the left of labelA return
+          if(labelB_left <= labelA_left && labelB_right < labelA_left) return  // if labelB is completely to the left of labelA return
 
           // otherwise the labels horizontally overlap
           shiftLabels()
