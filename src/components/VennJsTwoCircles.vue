@@ -94,38 +94,11 @@ export default {
 
       let shiftAgain = false
 
+      let delta_y,
+            shiftAmount,
+            shiftDirection
+
       textLabels.each(function(d, i) {
-        function shiftLabels() {
-          // refresh coordinates
-          labelA_y = +labelA.attr('y')
-          labelB_y = +labelB.attr('y')
-
-          delta_y = labelA_y - labelB_y
-
-          if(Math.abs(delta_y) > theSpaceBetween) return  // don't do anything if the labels are already vertically spaced apart enough
-
-          if(labelA_left <= labelB_left && labelA_right <= labelB_left) return  // if labelA is completely to the left of labelB return
-          if(labelB_left <= labelA_left && labelB_right < labelA_left) return // if labelB is completely to the left of labelA return
-          // otherwise the labels horizontally overlap
-
-
-          shiftAgain = true
-          shiftDirection = delta_y > 0 ? 1 : -1
-          shiftAmount = shiftDirection * shiftIncrement
-
-          console.log(shiftAmount)
-
-          console.log(labelA_y + shiftAmount)
-
-          labelA.attr('y', labelA_y + shiftAmount)
-          labelB.attr('y', labelB_y - shiftAmount)
-
-          console.log('after', labelA.attr('y'))
-          console.log('after', labelB.attr('y'))
-
-          if(shiftAgain) setTimeout(shiftLabels, 20)  // check if we need to shift labels even more
-        }
-
         const contextA = this
 
         let labelA,
@@ -138,9 +111,7 @@ export default {
             labelB_right,
             labelB_y,
 
-            delta_y,
-            shiftAmount,
-            shiftDirection,
+
 
             tempNodeRef
 
@@ -166,9 +137,31 @@ export default {
           labelB_right = tempNodeRef.x + tempNodeRef.width
           labelB_y = +labelB.attr('y')
 
+          if(labelA_left <= labelB_left && labelA_right <= labelB_left) return  // if labelA is completely to the left of labelB return
+          if(labelB_left <= labelA_left && labelB_right < labelA_left) return // if labelB is completely to the left of labelA return
+
+          // otherwise the labels horizontally overlap
           shiftLabels()
         })
 
+        function shiftLabels() {  // NB: can't figure out why this deOverlaps less if method and variable names are instantiated outside the loop
+          // refresh coordinates
+          labelA_y = +labelA.attr('y')
+          labelB_y = +labelB.attr('y')
+
+          delta_y = labelA_y - labelB_y
+
+          if(Math.abs(delta_y) > theSpaceBetween) return  // don't do anything if the labels are already vertically spaced apart enough
+
+          shiftAgain = true
+          shiftDirection = delta_y > 0 ? 1 : -1
+          shiftAmount = shiftDirection * shiftIncrement
+
+          labelA.attr('y', labelA_y + shiftAmount)
+          labelB.attr('y', labelB_y - shiftAmount)
+
+          if(shiftAgain) setTimeout(shiftLabels, 20)  // check if we need to shift labels even more
+        }
       })
     },
   },
