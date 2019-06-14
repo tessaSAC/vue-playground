@@ -121,9 +121,6 @@ export default {
         labelA_right = tempNodeRef.x + tempNodeRef.width
         labelA_y = +labelA.attr('y')
 
-        ;[ labelA_left, labelA_right, labelA_y ] = [ tempNodeRef.x, (tempNodeRef.x + tempNodeRef.width), tempNodeRef.y ]
-        // NB from Di Fan: can't start semi-colonless code with { or [
-
         textLabels.each(function(d) {
           const contextB = this
 
