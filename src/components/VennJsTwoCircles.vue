@@ -88,15 +88,16 @@ export default {
     },
 
     deOverlapLabels() {
+      // NB: when the circles have total or almost total overlap, Venn.js moves the labels around automatically, i.e. this method is not responsible for their weird placement
+
       const textLabels = d3.selectAll('#vennCompareTwo .label') // get all Venn diagram labels
       const shiftIncrement = 0.5 // how much to de-overlap labels by each loop
       const theSpaceBetween = 12 // the minimum amount of vertical space between each label
 
-      let shiftAgain = false
-
       let delta_y,
-            shiftAmount,
-            shiftDirection
+          shiftAgain = false,
+          shiftAmount,
+          shiftDirection
 
       textLabels.each(function(d, i) {
         const contextA = this
@@ -111,12 +112,10 @@ export default {
             labelB_right,
             labelB_y,
 
-
-
             tempNodeRef
 
         labelA = d3.select(contextA)
-        tempNodeRef = labelA.node().getBBox()
+        tempNodeRef = labelA.node().getBoundingClientRect()  // more accurate than d3's getBBox which seems to be relative to the svg canvas?
 
         labelA_left = tempNodeRef.x
         labelA_right = tempNodeRef.x + tempNodeRef.width
@@ -131,7 +130,7 @@ export default {
           if(contextA === contextB) return  // the context is the same, therefore the element will be the same
 
           labelB = d3.select(contextB)
-          tempNodeRef = labelB.node().getBBox()
+          tempNodeRef = labelB.node().getBoundingClientRect()
 
           labelB_left = tempNodeRef.x,
           labelB_right = tempNodeRef.x + tempNodeRef.width
