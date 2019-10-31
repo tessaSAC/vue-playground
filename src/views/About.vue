@@ -3,8 +3,13 @@ import confetti from 'canvas-confetti'
 
 export default {
   mounted() {
-    confetti.create(this.$refs.canvas, { resize: true })
-    confetti()
+    confetti.create(this.$refs.canvas, { resize: true })({
+      colors: [ '#ffffff', '#000000' ],
+      particleCount: 300,
+      origin: { y: 1.1 },
+      spread: 360,
+      startVelocity: 60,
+    })
   },
 }
 </script>
@@ -19,11 +24,12 @@ export default {
 <style lang="scss">
 .About {
   background: slateblue;
+  height: 50vh;
 
   .canvas {
     background: cadetblue;
-    height: 200px;
-    width: 400px;
+    height: 100%;
+    width: 100%;
   }
 }
 </style>
