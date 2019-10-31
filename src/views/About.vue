@@ -3,7 +3,6 @@ import confetti from 'canvas-confetti'
 
 export default {
   mounted() {
-    this.$refs.canvas.getContext('2d').fillSTyle = 'red'
     confetti.create(this.$refs.canvas, { resize: false })
     confetti()
   },
