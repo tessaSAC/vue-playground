@@ -3,7 +3,7 @@ import confetti from 'canvas-confetti'
 
 export default {
   mounted() {
-    confetti.create(this.$refs.canvas, { resize: false })
+    confetti.create(this.$refs.canvas, { resize: true })
     confetti()
   },
 }
@@ -12,15 +12,18 @@ export default {
 <template>
 <div class="About">
   <h1>This is an about page</h1>
-  <canvas ref="canvas" width="200" height="200" fillStyle="red" />
+  <canvas ref="canvas" class="canvas" />
 </div>
 </template>
 
 <style lang="scss">
 .About {
-  // background: slateblue;
+  background: slateblue;
+
   .canvas {
-    background: red;
+    background: cadetblue;
+    height: 200px;
+    width: 400px;
   }
 }
 </style>
