@@ -1,4 +1,6 @@
 <script>
+import { filter } from 'lodash'
+
 import Draggable from 'vuedraggable'
 
 export default {
@@ -7,9 +9,10 @@ export default {
 	},
 
 	props: {
-		completeList: {
+		configurableList: {
 			type: Array,
 			default: _ => [
+				{ label: 'abyssinian', value: '01' },
 				{ label: '<strong>american shorthair</strong>', value: '02' },
 				{ label: 'texel', value: '03' },
 				{ label: 'teddy', value: '04' },
@@ -26,21 +29,30 @@ export default {
 
 		selected: {
 			type: Array,
-			default: _ => [{ label: 'abbyssinian', value: '01' }],
+			default: _ => [{ label: 'abyssinian', value: '01' }],
 		}
 	},
 
 	data: _ => ({
 		itemsSelected: [],
+		searchTerm: '',
 	}),
 
 	computed: {
 		itemsAvailable() {
-			return this.completeList.filter(item => !this.itemsSelected.includes(item))
+			return this.configurableList.filter(item => !filter(this.itemsSelected, item).length)
 		},
 
 		numSelected() {
 			return this.itemsSelected.length + this.permanent.length
+		},
+
+		resultsPermanent() {
+			return this.filterListBySearchTerm(this.permanent)
+		},
+
+		resultsConfigurable() {
+			return this.filterListBySearchTerm([ ...this.itemsSelected, ...this.itemsAvailable ])
 		},
 	},
 
@@ -57,12 +69,16 @@ export default {
 			this.$emit('cancel')
 		},
 
-		emitSave() {
+		emitChanges() {
 			this.$emit('save', this.itemsSelected)
 		},
 
+		filterListBySearchTerm(list) {
+			return list.filter(({ label }) => label.toLowerCase().includes(this.searchTerm.toLowerCase()))
+		},
+
 		selectAll() {
-			this.itemsSelected = [...this.completeList]
+			this.itemsSelected = [...this.configurableList]
 		}
 	}
 }
@@ -72,12 +88,26 @@ export default {
 <div class="DraggableOrderedList">
 <h1>Modal Title</h1>
 
-<!-- label -->
-Select and drag to reorder the metrics you'd like to see.
-<!-- search input -->
+<label>Select and drag to reorder the metrics you'd like to see.</label>
 
-	<el-collapse>
+<el-input
+  placeholder="Search product metrics..."
+  v-model="searchTerm"
+  clearable
+	prefix-icon="el-icon-search"
+/>
 
+	<template v-if="searchTerm">
+		<el-checkbox-group class="allCheckboxes" v-model="permanent">
+			<el-checkbox v-for="item in resultsPermanent" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
+		</el-checkbox-group>
+
+		<el-checkbox-group v-model="itemsSelected" class="allCheckboxes">
+			<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
+		</el-checkbox-group>
+	</template>
+
+	<el-collapse v-else>
 		<el-collapse-item title="Selected items" name="selected items">
 			<template slot="title">
 				<div class="sectionLabel">
@@ -94,7 +124,6 @@ Select and drag to reorder the metrics you'd like to see.
 			</el-checkbox-group>
 
 			<el-checkbox-group v-model="itemsSelected" class="allCheckboxes">
-				<!-- draggable disabled if search mode -->
 				<Draggable v-model="itemsSelected" class="Draggable">
 					<el-checkbox v-for="item in itemsSelected" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
 				</Draggable>
@@ -119,7 +148,7 @@ Select and drag to reorder the metrics you'd like to see.
 	</el-collapse>
 
 	<footer>
-		<el-button type="info" plain @click="emitCancellation">Cancel</el-button>
+		<el-button type="info" plain @click="emitCancel">Cancel</el-button>
 		<el-button type="success" plain @click="emitChanges">Save</el-button>
 	</footer>
 </div>
