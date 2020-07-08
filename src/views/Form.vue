@@ -32,7 +32,7 @@ export default {
 <div class="Form">
   <DraggableOrderedList class="DraggableOrderedList" />
 
-  <BaseHorizontalSpacing2 />
+  <BaseVerticalSpacing2 />
 
   <div class="inputs">
     <h3>Custom Input</h3>

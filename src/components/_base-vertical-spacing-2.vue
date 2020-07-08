@@ -1,9 +1,9 @@
 <template>
-<div class="BaseHorizontalSpacing2" />
+<div class="BaseVerticalSpacing2" />
 </template>
 
 <style lang="stylus" scoped>
-.BaseHorizontalSpacing2 {
+.BaseVerticalSpacing2 {
     height: 2rem;
 }
 </style>
