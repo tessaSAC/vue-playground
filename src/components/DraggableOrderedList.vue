@@ -10,7 +10,7 @@ export default {
 		completeList: {
 			type: Array,
 			default: [
-				{ label: 'american shorthair', value: '02' },
+				{ label: '<strong>american shorthair</strong>', value: '02' },
 				{ label: 'texel', value: '03' },
 				{ label: 'teddy', value: '04' },
 				{ label: 'peruvian', value: '05' },
@@ -63,11 +63,11 @@ Select and drag to reorder the metrics you'd like to see.
 			</template>
 
 			<el-checkbox-group v-model="itemsSelected" class="allCheckboxes">
-				<el-checkbox v-for="item in permanent" :key="item.value" :label="item" :checked="true" disabled >{{ item.label }}</el-checkbox>
+				<el-checkbox v-for="item in permanent" :key="item.value" :label="item" :checked="true" disabled ><span v-html="item.label" /></el-checkbox>
 
 				<!-- draggable disabled if search mode -->
 				<Draggable v-model="itemsSelected" class="Draggable">
-					<el-checkbox v-for="item in itemsSelected" :key="item.value" :label="item">item.label</el-checkbox>
+					<el-checkbox v-for="item in itemsSelected" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
 				</Draggable>
 			</el-checkbox-group>
 		</el-collapse-item>
@@ -79,7 +79,7 @@ Select and drag to reorder the metrics you'd like to see.
 			</template>
 			
 			<el-checkbox-group v-model="itemsSelected" class="allCheckboxes">
-				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item">{{ item.label }}</el-checkbox>
+				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 		</el-collapse-item>
 		</el-collapse-item> 
