@@ -40,7 +40,8 @@ export default {
 
 	computed: {
 		itemsAvailable() {
-			return this.configurableList.filter(item => !filter(this.itemsSelected, item).length)
+			// TODO: replace i => i method with `item` when lodash shorthands config issue is fixed
+			return this.configurableList.filter(item => !filter(this.itemsSelected, i => i.label === item.label).length)
 		},
 
 		numSelected() {
@@ -98,12 +99,14 @@ export default {
 />
 
 	<template v-if="searchTerm">
-		<el-checkbox-group class="allCheckboxes" v-model="permanent">
+		<el-checkbox-group class="checkboxGroup" v-model="permanent">
 			<el-checkbox v-for="item in resultsPermanent" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
 		</el-checkbox-group>
 
-		<el-checkbox-group v-model="itemsSelected" class="allCheckboxes">
-			<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
+		<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
+			<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item">
+				<span v-html="item.label" />
+			</el-checkbox>
 		</el-checkbox-group>
 	</template>
 
@@ -119,13 +122,32 @@ export default {
 				</div>
 			</template>
 
-			<el-checkbox-group v-model="permanent" class="allCheckboxes">
+			<el-checkbox-group v-model="permanent" class="checkboxGroup static">
 				<el-checkbox v-for="item in permanent" :key="item.value" :label="item" disabled ><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 
-			<el-checkbox-group v-model="itemsSelected" class="allCheckboxes">
+			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<Draggable v-model="itemsSelected" class="Draggable">
-					<el-checkbox v-for="item in itemsSelected" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
+					<div v-for="item in itemsAvailable" :key="item.value" class="checkboxDraggable">
+						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="-10 0 24 24" fill="none"
+							stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="10" cy="5" r="1" />
+							<circle cx="10" cy="12" r="1" />
+							<circle cx="10" cy="19" r="1" />
+							<circle cx="10" cy="26" r="1" />
+						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="10 0 24 24" fill="none" stroke="rebeccapurple"
+							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="14" cy="5" r="1" />
+							<circle cx="14" cy="12" r="1" />
+							<circle cx="14" cy="19" r="1" />
+							<circle cx="14" cy="26" r="1" />
+						</svg>
+
+						<el-checkbox :key="item.value" :label="item">
+							<span v-html="item.label" />
+						</el-checkbox>
+					</div>
 				</Draggable>
 			</el-checkbox-group>
 		</el-collapse-item>
@@ -141,7 +163,7 @@ export default {
 				</div>
 			</template>
 			
-			<el-checkbox-group v-model="itemsSelected" class="allCheckboxes">
+			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup static">
 				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 		</el-collapse-item>
@@ -171,14 +193,25 @@ style <style lang="scss" scoped>
 	}
 }
 
-.allCheckboxes {
+.checkboxGroup {
 	padding: 0 1rem;
 }
 
-.allCheckboxes, .Draggable {
+.checkboxGroup, .Draggable {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+
+	&.static {
+		position: relative;
+		left: 28px;
+	}
+}
+.checkboxDraggable {
+	display: flex;
+	align-items: center;
+
+	svg { cursor: move; }
 }
 
 footer {
