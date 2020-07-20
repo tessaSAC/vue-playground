@@ -129,19 +129,15 @@ export default {
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<Draggable v-model="itemsSelected" class="Draggable">
 					<div v-for="item in itemsAvailable" :key="item.value" class="checkboxDraggable">
-						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="-10 0 24 24" fill="none"
-							stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<circle cx="10" cy="5" r="1" />
-							<circle cx="10" cy="12" r="1" />
-							<circle cx="10" cy="19" r="1" />
-							<circle cx="10" cy="26" r="1" />
+						<svg style="background:pink" xmlns="http://www.w3.org/2000/svg" width="4" height="14" viewBox="1 1 1 18.5" fill="none" stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="1" cy="3" r="1"/>
+							<circle cx="1" cy="10" r="1"/>
+							<circle cx="1" cy="17" r="1"/>
 						</svg>
-						<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="10 0 24 24" fill="none" stroke="rebeccapurple"
-							stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<circle cx="14" cy="5" r="1" />
-							<circle cx="14" cy="12" r="1" />
-							<circle cx="14" cy="19" r="1" />
-							<circle cx="14" cy="26" r="1" />
+						<svg style="background:pink" xmlns="http://www.w3.org/2000/svg" width="7" height="14" viewBox="1 1 1 18.5" fill="none" stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="4" cy="3" r="1"/>
+							<circle cx="4" cy="10" r="1"/>
+							<circle cx="4" cy="17" r="1"/>
 						</svg>
 
 						<el-checkbox :key="item.value" :label="item">
@@ -204,7 +200,7 @@ style <style lang="scss" scoped>
 
 	&.static {
 		position: relative;
-		left: 28px;
+		left: 24px;
 	}
 }
 .checkboxDraggable {
@@ -212,6 +208,8 @@ style <style lang="scss" scoped>
 	align-items: center;
 
 	svg { cursor: move; }
+
+	label { margin-left:  14px; }
 }
 
 footer {
