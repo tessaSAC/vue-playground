@@ -1,4 +1,7 @@
 // vue.config.js
+
+const webpack = require('webpack')
+
 module.exports = {
   css: {
     loaderOptions: {
@@ -10,6 +13,26 @@ module.exports = {
       },
     },
   },
+
+  // Try to turn on Lodash shorthands option
+    // https://github.com/lodash/lodash-webpack-plugin#feature-sets
+    // https://v4.webpack.js.org/plugins/loader-options-plugin
+    // https://stackoverflow.com/a/60352961
+  // configureWebpack: {
+  //   plugins: [
+  //     new webpack.LoaderOptionsPlugin({
+  //       options: {
+  //         config: { lodash: { shorthands: true } }
+  //       }
+  //     })
+  //   ],
+  // },
+
+  // plugins: {
+  //   lodash: {
+  //     config: { lodash: { shorthands: true } },
+  //   },
+  // },
 
   publicPath: process.env.NODE_ENV === 'production' ? '/vue-playground/' : '/',
 }
