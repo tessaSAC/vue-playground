@@ -1,9 +1,9 @@
 import Vue from 'vue'
+import './plugins/element.js'
 import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './plugins/element.js'
 
 // Globally register all `_base`-prefixed components
 const requireComponent = require.context(
