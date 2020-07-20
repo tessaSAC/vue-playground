@@ -129,7 +129,16 @@ export default {
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<Draggable v-model="itemsSelected" class="Draggable">
 					<div v-for="item in itemsAvailable" :key="item.value" class="checkboxDraggable">
-						<svg style="background:white" xmlns="http://www.w3.org/2000/svg" width="11" height="14" viewBox="1 1 1 18.5" fill="none" stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<svg 
+							fill="none" 
+							height="14" 
+							stroke-linejoin="round"
+							stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" 
+							style="background:pink" 
+							viewBox="1 1 1 18.5" 
+							width="11" 
+							xmlns="http://www.w3.org/2000/svg" 
+						>
 							<circle cx="-4" cy="3" r="1"/>
 							<circle cx="-4" cy="10" r="1"/>
 							<circle cx="-4" cy="17" r="1"/>
