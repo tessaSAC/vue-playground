@@ -129,15 +129,13 @@ export default {
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<Draggable v-model="itemsSelected" class="Draggable">
 					<div v-for="item in itemsAvailable" :key="item.value" class="checkboxDraggable">
-						<svg style="background:pink" xmlns="http://www.w3.org/2000/svg" width="4" height="14" viewBox="1 1 1 18.5" fill="none" stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<circle cx="1" cy="3" r="1"/>
-							<circle cx="1" cy="10" r="1"/>
-							<circle cx="1" cy="17" r="1"/>
-						</svg>
-						<svg style="background:pink" xmlns="http://www.w3.org/2000/svg" width="7" height="14" viewBox="1 1 1 18.5" fill="none" stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<circle cx="4" cy="3" r="1"/>
-							<circle cx="4" cy="10" r="1"/>
-							<circle cx="4" cy="17" r="1"/>
+						<svg style="background:white" xmlns="http://www.w3.org/2000/svg" width="11" height="14" viewBox="1 1 1 18.5" fill="none" stroke="rebeccapurple" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="-4" cy="3" r="1"/>
+							<circle cx="-4" cy="10" r="1"/>
+							<circle cx="-4" cy="17" r="1"/>
+							<circle cx="6.5" cy="3" r="1"/>
+							<circle cx="6.5" cy="10" r="1"/>
+							<circle cx="6.5" cy="17" r="1"/>
 						</svg>
 
 						<el-checkbox :key="item.value" :label="item">
