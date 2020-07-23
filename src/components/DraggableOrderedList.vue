@@ -44,6 +44,10 @@ export default {
 			return this.configurableList.filter(item => !filter(this.itemsSelected, i => i.label === item.label).length)
 		},
 
+		hasSearchResults() { 
+			return this.resultsPermanent.length + this.resultsConfigurable.length 
+		},
+
 		numSelected() {
 			return this.itemsSelected.length + this.permanent.length
 		},
@@ -99,15 +103,21 @@ export default {
 />
 
 	<template v-if="searchTerm">
-		<el-checkbox-group class="checkboxGroup" v-model="permanent">
-			<el-checkbox v-for="item in resultsPermanent" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
-		</el-checkbox-group>
+		<template v-if="hasSearchResults">
+			<el-checkbox-group class="checkboxGroup" v-model="permanent">
+				<el-checkbox v-for="item in resultsPermanent" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
+			</el-checkbox-group>
 
-		<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
-			<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item">
-				<span v-html="item.label" />
-			</el-checkbox>
-		</el-checkbox-group>
+			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
+				<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item">
+					<span v-html="item.label" />
+				</el-checkbox>
+			</el-checkbox-group>
+		</template>
+
+		<div v-else class="searchEmptyState">
+			<slot name="searchEmptyState" />
+		</div>
 	</template>
 
 	<el-collapse v-else>
@@ -180,6 +190,18 @@ export default {
 </template>
 
 style <style lang="scss" scoped>
+.searchEmptyState {
+	height: calc(100% - 100px);  // excludes approximate height of search input
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+	h2 {
+		margin: 0;
+	}
+}
+
 .sectionLabel {
 	width: 100%;
 	padding: 0 1rem;
