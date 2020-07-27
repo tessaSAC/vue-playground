@@ -6,11 +6,15 @@ import router from './router'
 import store from './store'
 
 import VuePortal from '@linusborg/vue-simple-portal'
+import VueResize from 'vue-resize'
+
+import 'vue-resize/dist/vue-resize.css'
 
 Vue.use(VuePortal, {
   name: 'portal', // optional, use to rename component
   selector: '#focusedModal',  // rename selector
 })
+Vue.use(VueResize)
 
 // Globally register all `_base`-prefixed components
 const requireComponent = require.context(

@@ -10,12 +10,30 @@ export default {
     clickOutside: vClickOutside.directive
   },
 
+  data: _ => ({
+    height: 0,
+    width: 0,
+  }),
+
   computed: {
-    ...mapGetters([ 'modalFocusedIsOpen' ])
+    ...mapGetters([ 'modalFocusedIsOpen' ]),
+
+    modalFocusedPosition() {
+      return {
+        top: `calc((90vh - ${ this.height }px) / 2)`,
+        left: `calc((100% - ${ this.width }px) / 2)`,  // idky doesn't work with vw
+      }
+    }
   },
 
   methods: {
     ...mapMutations({ closeModalFocused: 'toggleModalFocused' }),
+
+    centerModal({ height, width }) {
+      if(!height && !width) return
+      this.height = height
+      this.width = width
+    }
   }
 }
 </script>
@@ -31,7 +49,16 @@ export default {
     </div>
     <router-view/>
 
-    <div v-if="modalFocusedIsOpen" v-click-outside="closeModalFocused" id="portalTarget" />
+    <template v-if="modalFocusedIsOpen">
+      <div class="scrim" />
+      <div  
+        v-click-outside="closeModalFocused"
+        id="portalTarget"
+        :style="modalFocusedPosition"
+      >
+        <resize-observer @notify="centerModal" />
+      </div>
+    </template>
   </v-app>
 </template>
 
@@ -55,27 +82,25 @@ export default {
   }
 }
 
+#portalTarget, .scrim { z-index: 1; }  // modal stays above checkboxes, etc.
+
 #portalTarget {
+  transform-style: preserve-3d;
   position: absolute;
-  top: 20vh;
-  left: 30vw;
-  width: 40vw;
-  height: 50vh;
-  background: white;
   border: 1px solid coral;
   border-radius: 4px;
+  background: white;
+  min-height: 200px;
+  min-width: 300px;
   display: grid;
   place-items: center;
-  transform-style: preserve-3d;
-
-  &::after {
-    content: '';
-    width: 100vw;
-    height: 90vh;  //  total vh - 'outside vue...' height
-    background: rgba(50, 80, 200, 0.4);
-    pointer-events: none;
-    position: absolute;
-    transform: translateZ(-1px);
-  }
 }
+
+.scrim {
+    transform: translateZ(-1px);
+    position: absolute;
+    background: rgba(50, 80, 200, 0.4);
+    height: 90vh;  //  total vh - 'outside vue...' height
+    width: 100vw;
+  }
 </style>
