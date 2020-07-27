@@ -1,15 +1,7 @@
 <script>
-// v-click-outside can go on either the portal entry point or the portal itself
-// idky this doesn't work if I add it via main.js instead >:(
-import vClickOutside from 'v-click-outside'
-
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
-
   data: _ => ({
     height: 0,
     width: 0,
@@ -50,9 +42,8 @@ export default {
     <router-view/>
 
     <template v-if="modalFocusedIsOpen">
-      <div class="scrim" />
+      <div class="scrim" @click="closeModalFocused" />
       <div  
-        v-click-outside="closeModalFocused"
         id="portalTarget"
         :style="modalFocusedPosition"
       >
