@@ -18,6 +18,14 @@ export default {
     }
   },
 
+  mounted() {
+    const modal = this.$refs.modalFocused
+    if(!modal) return
+
+    this.height = modal.clientHeight
+    this.width = modal.clientWidth
+  },
+
   methods: {
     ...mapMutations({ closeModalFocused: 'toggleModalFocused' }),
 
@@ -45,6 +53,7 @@ export default {
       <div class="scrim" @click="closeModalFocused" />
       <div  
         id="portalTarget"
+        ref="modalFocused"
         :style="modalFocusedPosition"
       >
         <resize-observer @notify="centerModal" />

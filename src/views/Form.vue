@@ -2,6 +2,7 @@
 // Possible TODO: figure out why Form name (was never in component options except when I was trying to figure this out) stopped working and after cutting and repasting it worked again
 
 import DraggableOrderedList from '../components/DraggableOrderedList'
+import ModalDraggableOrderedList from '../components/ModalDraggableOrderedList'
 import RadioList from '../components/RadioList'
 import VModelCustom from '../components/VModelCustom'
 import VModelCustomOuro from '../components/VModelCustomOuro'
@@ -11,6 +12,7 @@ import { mapGetters, mapMutations } from 'vuex'
 export default {
   components: {
     DraggableOrderedList,
+    ModalDraggableOrderedList,
     RadioList,
     VModelCustom,
     VModelCustomOuro,
@@ -43,12 +45,7 @@ export default {
   <DraggableOrderedList class="DraggableOrderedList" />
   <el-button type="warning" plain @click="openModalFocused">Open modal</el-button>
 
-  <div 
-    v-if="modalFocusedIsOpen">
-    <portal selector="#portalTarget">
-      <DraggableOrderedList class="DraggableOrderedList" /> 
-    </portal>
-  </div>
+  <ModalDraggableOrderedList v-if="modalFocusedIsOpen" />
 
   <BaseVerticalSpacing2 />
 
