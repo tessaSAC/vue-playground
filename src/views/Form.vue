@@ -6,6 +6,10 @@ import RadioList from '../components/RadioList'
 import VModelCustom from '../components/VModelCustom'
 import VModelCustomOuro from '../components/VModelCustomOuro'
 
+import vClickOutside from 'v-click-outside'
+
+import { mapGetters, mapMutations } from 'vuex'
+
 export default {
   components: {
     DraggableOrderedList,
@@ -14,23 +18,43 @@ export default {
     VModelCustomOuro,
   },
 
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
+
   data: _ => ({
     inputVModelCustom: 'passed in prop',
     inputVModelCustomOuro: 'passed in prop',
   }),
+
+  computed: {
+    ...mapGetters([ 'modalFocusedIsOpen' ])
+  },
 
   mounted() {
     setTimeout(() => {
       this.inputVModelCustom = 'delayed prop change'
       this.inputVModelCustomOuro = 'delayed prop change'
     }, 500);
-  }
+  },
+
+  methods: {
+    ...mapMutations({ openModalFocused: 'toggleModalFocused' }),
+  },
 }
 </script>
 
 <template>
 <div class="Form">
   <DraggableOrderedList class="DraggableOrderedList" />
+  <el-button type="warning" plain @click="openModalFocused">Open modal</el-button>
+
+  <div 
+    v-if="modalFocusedIsOpen">
+    <portal selector="#portalTarget">
+      <DraggableOrderedList class="DraggableOrderedList" /> 
+    </portal>
+  </div>
 
   <BaseVerticalSpacing2 />
 

@@ -5,6 +5,13 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import VuePortal from '@linusborg/vue-simple-portal'
+
+Vue.use(VuePortal, {
+  name: 'portal', // optional, use to rename component
+  selector: '#focusedModal',  // rename selector
+})
+
 // Globally register all `_base`-prefixed components
 const requireComponent = require.context(
   // Look for files in the current directory
