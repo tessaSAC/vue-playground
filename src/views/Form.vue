@@ -6,8 +6,6 @@ import RadioList from '../components/RadioList'
 import VModelCustom from '../components/VModelCustom'
 import VModelCustomOuro from '../components/VModelCustomOuro'
 
-import vClickOutside from 'v-click-outside'
-
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
@@ -17,11 +15,7 @@ export default {
     VModelCustom,
     VModelCustomOuro,
   },
-
-  directives: {
-    clickOutside: vClickOutside.directive
-  },
-
+  
   data: _ => ({
     inputVModelCustom: 'passed in prop',
     inputVModelCustomOuro: 'passed in prop',
