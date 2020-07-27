@@ -2,38 +2,12 @@
 import { mapGetters, mapMutations } from 'vuex'
 
 export default {
-  data: _ => ({
-    height: 0,
-    width: 0,
-  }),
-
   computed: {
     ...mapGetters([ 'modalFocusedIsOpen' ]),
-
-    modalFocusedPosition() {
-      return {
-        top: `calc((90vh - ${ this.height }px) / 2)`,
-        left: `calc((100% - ${ this.width }px) / 2)`,  // idky doesn't work with vw
-      }
-    }
-  },
-
-  mounted() {
-    const modal = this.$refs.modalFocused
-    if(!modal) return
-
-    this.height = modal.clientHeight
-    this.width = modal.clientWidth
   },
 
   methods: {
     ...mapMutations({ closeModalFocused: 'toggleModalFocused' }),
-
-    centerModal({ height, width }) {
-      if(!height && !width) return
-      this.height = height
-      this.width = width
-    }
   }
 }
 </script>
@@ -50,13 +24,15 @@ export default {
     <router-view/>
 
     <template v-if="modalFocusedIsOpen">
-      <div class="scrim" @click="closeModalFocused" />
-      <div  
-        id="portalTarget"
-        ref="modalFocused"
-        :style="modalFocusedPosition"
-      >
-        <resize-observer @notify="centerModal" />
+      <div class="scrim" @click="closeModalFocused">
+        <div  
+          id="portalTarget"
+          ref="modalFocused"
+          class="modalFocused"
+          :style="modalFocusedPosition"
+        >
+          <resize-observer @notify="centerModal" />
+        </div>
       </div>
     </template>
   </v-app>
@@ -82,25 +58,28 @@ export default {
   }
 }
 
-#portalTarget, .scrim { z-index: 1; }  // modal stays above checkboxes, etc.
-
-#portalTarget {
-  transform-style: preserve-3d;
+.scrim {
+  z-index: 1; // modal stays above checkboxes, etc.
   position: absolute;
-  border: 1px solid coral;
-  border-radius: 4px;
-  background: white;
-  min-height: 200px;
-  min-width: 300px;
+  background: rgba(50, 80, 200, 0.4);
+
+  height: 90vh;  //  total vh - 'outside vue...' height
+  width: 100vw;
+
+
   display: grid;
   place-items: center;
-}
 
-.scrim {
-    transform: translateZ(-1px);
-    position: absolute;
-    background: rgba(50, 80, 200, 0.4);
-    height: 90vh;  //  total vh - 'outside vue...' height
-    width: 100vw;
+  .modalFocused {
+    border: 1px solid coral;
+    border-radius: 4px;
+    background: white;
+
+    min-height: 200px;
+    min-width: 300px;
+
+    display: grid;
+    place-items: center;
   }
+}
 </style>
