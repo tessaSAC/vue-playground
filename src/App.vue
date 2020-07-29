@@ -27,12 +27,9 @@ export default {
       <div class="scrim" @click="closeModalFocused">
         <div  
           id="portalTarget"
-          ref="modalFocused"
           class="modalFocused"
-          :style="modalFocusedPosition"
-        >
-          <resize-observer @notify="centerModal" />
-        </div>
+          @click.stop
+        />
       </div>
     </template>
   </v-app>

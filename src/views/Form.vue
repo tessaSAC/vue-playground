@@ -19,6 +19,20 @@ export default {
   },
   
   data: _ => ({
+    editableList: {
+      configurable: [
+        { label: 'abyssinian', value: '01' },
+        { label: '<strong>american shorthair</strong>', value: '02' },
+        { label: 'texel', value: '03' },
+        { label: 'teddy', value: '04' },
+        { label: 'peruvian', value: '05' },
+        { label: 'sheltie', value: '06' },
+        { label: 'himalayan', value: '07' }
+      ],
+      immutable: [{ label: 'sheba', value: '00' }],
+      selected: [{ label: 'abyssinian', value: '01' }],
+    },
+
     inputVModelCustom: 'passed in prop',
     inputVModelCustomOuro: 'passed in prop',
   }),
@@ -35,17 +49,35 @@ export default {
   },
 
   methods: {
-    ...mapMutations({ openModalFocused: 'toggleModalFocused' }),
+    // Wow you can alias the same thing twice idk if this is good or not though lmao
+    ...mapMutations({ 
+      closeModalFocused: 'toggleModalFocused',
+      openModalFocused: 'toggleModalFocused',
+    }),
+
+    updateConfigurableList(newList) {
+      this.selected = newList
+    }
   },
 }
 </script>
 
 <template>
 <div class="Form">
-  <DraggableOrderedList class="DraggableOrderedList" />
-  <el-button type="warning" plain @click="openModalFocused">Open modal</el-button>
+  <DraggableOrderedList 
+    v-bind="editableList" 
+    class="DraggableOrderedList" 
+    @updated-configuration="newConfig => editableList.selected = newConfig"
+  />
 
-  <ModalDraggableOrderedList v-if="modalFocusedIsOpen" />
+  <el-button type="warning" plain @click="openModalFocused">Open modal</el-button>
+  <ModalDraggableOrderedList 
+    v-if="modalFocusedIsOpen" 
+    v-bind="editableList"
+    title="bbs"
+    @save="updateConfigurableList"
+    @cancel="closeModalFocused" 
+  />
 
   <BaseVerticalSpacing2 />
 

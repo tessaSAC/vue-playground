@@ -1,26 +1,55 @@
 <script>
-import DraggableOrderedListVue from './DraggableOrderedList'
+import DraggableOrderedList from './DraggableOrderedList'
 
 export default {
     components: {
-        DraggableOrderedListVue,
+        DraggableOrderedList,
     },
+
+    data: _ => ({
+        temporaryChanges: [],
+    }),
+
+    props: {
+        title: {
+            type: String,
+            default: 'Modal Title',
+        },
+    },
+
+    methods: {
+        emitCancel() {
+			this.$emit('cancel')
+		},
+
+		emitFinalConfiguration() {
+			this.$emit('save', this.temporaryChanges)
+        },
+        
+        updateTemporaryChanges(updatedConfiguration) {
+            this.temporaryChanges = updatedConfiguration
+        }
+    }
 }
 </script>
 
 <template>
 <portal selector="#portalTarget">
     <div class="ModalDraggableOrderedList">
-            <h1>Modal Title</h1>
-            <DraggableOrderedList class="DraggableOrderedList" /> 
+        <h1>{{ title }}</h1>
+        
+        <DraggableOrderedList 
+            v-bind="$attrs" 
+            class="DraggableOrderedList" 
+            @updated-configuration="updateTemporaryChanges"
+        /> 
 
-
-            <footer>
-                <el-button type="info" plain @click="emitCancel">Cancel</el-button>
-                <el-button type="success" plain @click="emitChanges">Save</el-button>
-            </footer>
+        <footer>
+            <el-button type="info" plain @click="emitCancel">Cancel</el-button>
+            <el-button type="success" plain @click="emitFinalConfiguration">Save</el-button>
+        </footer>
     </div>
-    </portal>
+</portal>
 </template>
 
 <style lang="scss">

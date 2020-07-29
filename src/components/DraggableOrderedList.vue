@@ -9,28 +9,20 @@ export default {
 	},
 
 	props: {
-		configurableList: {
+		configurable: {
 			type: Array,
-			default: _ => [
-				{ label: 'abyssinian', value: '01' },
-				{ label: '<strong>american shorthair</strong>', value: '02' },
-				{ label: 'texel', value: '03' },
-				{ label: 'teddy', value: '04' },
-				{ label: 'peruvian', value: '05' },
-				{ label: 'sheltie', value: '06' },
-				{ label: 'himalayan', value: '07' }
-			]
+			default: _ => []
 		},
 
-		permanent: {
+		immutable: {
 			type: Array,
-			default: _ => [{ label: 'sheba', value: '00' }],
+			default: _ => [],
 		},
 
 		selected: {
 			type: Array,
-			default: _ => [{ label: 'abyssinian', value: '01' }],
-		}
+			default: _ => [],
+		},
 	},
 
 	data: _ => ({
@@ -41,24 +33,30 @@ export default {
 	computed: {
 		itemsAvailable() {
 			// TODO: replace i => i method with `item` when lodash shorthands config issue is fixed
-			return this.configurableList.filter(item => !filter(this.itemsSelected, i => i.label === item.label).length)
+			return this.configurable.filter(item => !filter(this.itemsSelected, i => i.label === item.label).length)
 		},
 
 		hasSearchResults() { 
-			return this.resultsPermanent.length + this.resultsConfigurable.length 
+			return this.resultsFixed.length + this.resultsConfigurable.length 
 		},
 
 		numSelected() {
-			return this.itemsSelected.length + this.permanent.length
+			return this.itemsSelected.length + this.immutable.length
 		},
 
-		resultsPermanent() {
-			return this.filterListBySearchTerm(this.permanent)
+		resultsFixed() {
+			return this.filterListBySearchTerm(this.immutable)
 		},
 
 		resultsConfigurable() {
 			return this.filterListBySearchTerm([ ...this.itemsSelected, ...this.itemsAvailable ])
 		},
+	},
+
+	watch: {
+		itemsSelected(newConfiguration) {
+			if(newConfiguration) this.$emit('updated-configuration', newConfiguration)
+		}
 	},
 
 	created() {
@@ -70,20 +68,12 @@ export default {
 			this.itemsSelected = []
 		},
 
-		emitCancel() {
-			this.$emit('cancel')
-		},
-
-		emitChanges() {
-			this.$emit('save', this.itemsSelected)
-		},
-
 		filterListBySearchTerm(list) {
 			return list.filter(({ label }) => label.toLowerCase().includes(this.searchTerm.toLowerCase()))
 		},
 
 		selectAll() {
-			this.itemsSelected = [...this.configurableList]
+			this.itemsSelected = [...this.configurable]
 		}
 	}
 }
@@ -91,10 +81,6 @@ export default {
 
 <template>
 <div class="DraggableOrderedList">
-<h1>Modal Title</h1>
-
-<label>Select and drag to reorder the metrics you'd like to see.</label>
-
 <el-input
   placeholder="Search product metrics..."
   v-model="searchTerm"
@@ -104,8 +90,8 @@ export default {
 
 	<template v-if="searchTerm">
 		<template v-if="hasSearchResults">
-			<el-checkbox-group class="checkboxGroup" v-model="permanent">
-				<el-checkbox v-for="item in resultsPermanent" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
+			<el-checkbox-group class="checkboxGroup" v-model="immutable">
+				<el-checkbox v-for="item in resultsFixed" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
@@ -132,8 +118,8 @@ export default {
 				</div>
 			</template>
 
-			<el-checkbox-group v-model="permanent" class="checkboxGroup static">
-				<el-checkbox v-for="item in permanent" :key="item.value" :label="item" disabled ><span v-html="item.label" /></el-checkbox>
+			<el-checkbox-group v-model="immutable" class="checkboxGroup immutable">
+				<el-checkbox v-for="item in immutable" :key="item.value" :label="item" disabled ><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
@@ -176,16 +162,11 @@ export default {
 				</div>
 			</template>
 			
-			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup static">
+			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup immutable">
 				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 		</el-collapse-item>
 	</el-collapse>
-
-	<footer>
-		<el-button type="info" plain @click="emitCancel">Cancel</el-button>
-		<el-button type="success" plain @click="emitChanges">Save</el-button>
-	</footer>
 </div>
 </template>
 
@@ -227,7 +208,7 @@ style <style lang="scss" scoped>
 	flex-direction: column;
 	align-items: flex-start;
 
-	&.static {
+	&.immutable {
 		position: relative;
 		left: 24px;
 	}
@@ -239,11 +220,5 @@ style <style lang="scss" scoped>
 	svg { cursor: move; }
 
 	label { margin-left:  14px; }
-}
-
-footer {
-	padding: 1rem 0.5rem;
-	display: flex;
-	justify-content: flex-end;
 }
 </style>
