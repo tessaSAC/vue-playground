@@ -67,7 +67,8 @@ export default {
 <div class="Form">
   <DraggableOrderedList 
     v-bind="editableList" 
-    class="DraggableOrderedList" 
+    class="DraggableOrderedList"
+    listType="Bbs"
     @updated-configuration="newConfig => editableList.selected = newConfig"
   />
 
@@ -75,7 +76,7 @@ export default {
   <ModalDraggableOrderedList 
     v-if="modalFocusedIsOpen" 
     v-bind="editableList"
-    title="bbs"
+    listType="Bbs"
     @save="updateConfigurableList"
     @cancel="closeModalFocused" 
   />

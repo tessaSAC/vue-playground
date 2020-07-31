@@ -11,9 +11,9 @@ export default {
     }),
 
     props: {
-        title: {
+        listType: {
             type: String,
-            default: 'Modal Title',
+            default: 'items',
         },
     },
 
@@ -36,11 +36,12 @@ export default {
 <template>
 <portal selector="#portalTarget">
     <div class="ModalDraggableOrderedList">
-        <h1>{{ title }}</h1>
+        <h1>Edit {{ listType }}</h1>
         
         <DraggableOrderedList 
             v-bind="$attrs" 
             class="DraggableOrderedList" 
+            :listType="listType"
             @updated-configuration="updateTemporaryChanges"
         /> 
 

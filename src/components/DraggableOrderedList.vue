@@ -1,3 +1,25 @@
+<!--
+    A list with
+      • Search bar
+      • Checked items section (draggable)
+      • Unchecked items section (*not* draggable)
+
+    Props:
+      • listType: what kind of items are in the list (e.g. 'Metrics')
+
+      • configurable: array of { label, value } items that can be checked and drag-and-dropped
+        • `value` can be a template where custom html is needed
+      • immutable: array of { label, value } items that are disabled, permanently checked and can NOT be drag-and-dropped (e.g. "pinned" items)
+      • selected: array of { label, value } items that are checked and can be unchecked or drag-and-dropped; a subset of `configurable`
+
+    Slots:
+      • searchEmptyState: A slot with styled h2 (p & a tags inherit default styles) for view when no results match search
+        • Default content: Link that clears search and focuses on search input
+
+    Example Usage: ModalDraggableOrderedList
+    </style>
+-->
+
 <script>
 import { filter } from 'lodash'
 
@@ -19,6 +41,11 @@ export default {
 			default: _ => [],
 		},
 
+		listType: {
+			type: String,
+			default: 'items',
+		},
+
 		selected: {
 			type: Array,
 			default: _ => [],
@@ -31,14 +58,16 @@ export default {
 	}),
 
 	computed: {
+		hasSearchResults() { 
+			return this.resultsImmutable.length + this.resultsConfigurable.length 
+		},
+
 		itemsAvailable() {
 			// TODO: replace i => i method with `item` when lodash shorthands config issue is fixed
 			return this.configurable.filter(item => !filter(this.itemsSelected, i => i.label === item.label).length)
 		},
 
-		hasSearchResults() { 
-			return this.resultsImmutable.length + this.resultsConfigurable.length 
-		},
+		listTypeLowerCased() { return this.listType.toLowerCase() },
 
 		numSelected() {
 			return this.itemsSelected.length + this.immutable.length
@@ -82,9 +111,9 @@ export default {
 <template>
 <div class="DraggableOrderedList">
 <el-input
-  placeholder="Search product metrics..."
-  v-model="searchTerm"
-  clearable
+	v-model="searchTerm"
+	:placeholder="`Search ${ listTypeLowerCased }...`"
+	clearable
 	prefix-icon="el-icon-search"
 />
 
@@ -111,7 +140,7 @@ export default {
 			<template slot="title">
 				<div class="sectionLabel">
 					<h2>
-						Selected metrics
+						Selected {{ listTypeLowerCased }}
 						<span class="numSelected">({{ numSelected }})</span>
 					</h2>
 					<a @click.stop="clearAll">Clear all</a>
@@ -155,7 +184,7 @@ export default {
 			<template slot="title">
 				<div class="sectionLabel">
 					<h2>
-						Available metrics
+						Available {{ listTypeLowerCased }}
 						<span class="numSelected">({{ itemsAvailable.length }})</span>
 					</h2>
 					<a @click.stop="selectAll">Select all</a>
