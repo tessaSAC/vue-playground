@@ -17,7 +17,6 @@
         • Default content: Link that clears search and focuses on search input
 
     Example Usage: ModalDraggableOrderedList
-    </style>
 -->
 
 <script>
