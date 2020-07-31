@@ -37,14 +37,14 @@ export default {
 		},
 
 		hasSearchResults() { 
-			return this.resultsFixed.length + this.resultsConfigurable.length 
+			return this.resultsImmutable.length + this.resultsConfigurable.length 
 		},
 
 		numSelected() {
 			return this.itemsSelected.length + this.immutable.length
 		},
 
-		resultsFixed() {
+		resultsImmutable() {
 			return this.filterListBySearchTerm(this.immutable)
 		},
 
@@ -91,7 +91,7 @@ export default {
 	<template v-if="searchTerm">
 		<template v-if="hasSearchResults">
 			<el-checkbox-group class="checkboxGroup" v-model="immutable">
-				<el-checkbox v-for="item in resultsFixed" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
+				<el-checkbox v-for="item in resultsImmutable" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
@@ -124,7 +124,7 @@ export default {
 
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<Draggable v-model="itemsSelected" class="Draggable">
-					<div v-for="item in itemsAvailable" :key="item.value" class="checkboxDraggable">
+					<div v-for="item in itemsSelected" :key="item.value" class="checkboxDraggable">
 						<svg 
 							fill="none" 
 							height="14" 
@@ -162,7 +162,7 @@ export default {
 				</div>
 			</template>
 			
-			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup immutable">
+			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup static">
 				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 		</el-collapse-item>
@@ -208,7 +208,7 @@ style <style lang="scss" scoped>
 	flex-direction: column;
 	align-items: flex-start;
 
-	&.immutable {
+	&.static {
 		position: relative;
 		left: 24px;
 	}

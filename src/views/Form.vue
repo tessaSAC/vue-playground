@@ -56,7 +56,8 @@ export default {
     }),
 
     updateConfigurableList(newList) {
-      this.selected = newList
+      this.$set(this.editableList, 'selected', newList)
+      this.closeModalFocused()
     }
   },
 }
