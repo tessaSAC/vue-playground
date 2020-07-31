@@ -16,7 +16,7 @@
       • selected: array of { label, value } items that are checked and can be unchecked or drag-and-dropped; a subset of `configurable`
 
     Slots:
-      • searchEmptyState: A slot with styled h2 (p & a tags inherit default styles) for view when no results match search
+      • searchEmptyState: A centered slot with styled h2 (p & a tags inherit default styles) for view when no results match search
         • Default content: Link that clears search and focuses on search input
 
     Example Usage: ModalDraggableOrderedList
