@@ -2,7 +2,7 @@
     A list with
       • Search bar
       • Checked items section (draggable)
-      • Unchecked items section (*not* draggable)
+      • Unchecked items section (_not_ draggable)
 
     Props:
       • listType: what kind of items are in the list (e.g. 'Metrics')
