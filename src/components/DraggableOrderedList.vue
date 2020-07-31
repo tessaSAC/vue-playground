@@ -1,25 +1,28 @@
 <!--
-    A list with
-      • Search bar
-      • Checked items section (draggable)
-      • Unchecked items section (_not_ draggable)
+  	A list with
+		• Search bar
+		• Checked items section (draggable)
+		• Unchecked items section (_not_ draggable)
 
-    Props:
-      • listType: what kind of items are in the list (e.g. 'Metrics')
+  	Props:
+		• listType: What kind of items are in the list (e.g. 'Metrics')
 
-      • configurable: array of { label, value } items that can be checked and drag-and-dropped
-        • {
-            label: what to display next to the checkbox; can be a string or, where custom html is needed, a template 
-            value: identifying data unique to each list item
-          }
-      • immutable: array of { label, value } items that are disabled, permanently checked and can NOT be drag-and-dropped (e.g. "pinned" items)
-      • selected: array of { label, value } items that are checked and can be unchecked or drag-and-dropped; a subset of `configurable`
+		• configurable: Array of { label, value } items that can be checked and drag-and-dropped
+			• {
+				label: What to display next to the checkbox; Can be a string or, where custom html is needed, a template 
+				value: Identifying data unique to each list item
+			  }
+		• immutable: Array of { label, value } items that are disabled, permanently checked and can NOT be drag-and-dropped (e.g. "pinned" items)
+		• selected: Array of { label, value } items that are checked and can be unchecked or drag-and-dropped; a subset of `configurable`
 
-    Slots:
-      • searchEmptyState: A centered slot with styled h2 (p & a tags inherit default styles) for view when no results match search
-        • Default content: Link that clears search and focuses on search input
+	Slots:
+		• searchEmptyState: A centered slot with styled h2 (p & a tags inherit default styles) for view when no results match search
+		• Default content: Link that clears search and focuses on search input
 
-    Example Usage: ModalDraggableOrderedList
+	Events:
+		• updated-configuration: Emitted with new array of selected items whenever the order or selection is changed
+
+	Example Usage: ModalDraggableOrderedList
 -->
 
 <script>
