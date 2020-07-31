@@ -145,7 +145,7 @@ export default {
 	</template>
 
 	<el-collapse v-else>
-		<el-collapse-item title="Selected items" name="selected items">
+		<el-collapse-item title="Selected items" name="Selected items">
 			<template slot="title">
 				<div class="sectionLabel">
 					<h2>
@@ -189,7 +189,7 @@ export default {
 			</el-checkbox-group>
 		</el-collapse-item>
 
-		<el-collapse-item title="Available items" name="available items">
+		<el-collapse-item title="Available items" name="Available items">
 			<template slot="title">
 				<div class="sectionLabel">
 					<h2>
