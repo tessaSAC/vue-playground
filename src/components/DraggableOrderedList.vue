@@ -93,9 +93,14 @@ export default {
 	},
 
 	methods: {
-		clearAll() {
+		clearAllSelections() {
 			this.itemsSelected = []
 		},
+        
+        clearSearchTerm() {
+            this.searchTerm = ''
+            this.$refs.search.focus();
+        },
 
 		filterListBySearchTerm(list) {
 			return list.filter(({ label }) => label.toLowerCase().includes(this.searchTerm.toLowerCase()))
@@ -131,7 +136,9 @@ export default {
 		</template>
 
 		<div v-else class="searchEmptyState">
-			<slot name="searchEmptyState" />
+			<slot name="searchEmptyState">
+                <a @click="clearSearchTerm">Try another search term</a>
+            </slot>
 		</div>
 	</template>
 
@@ -143,7 +150,7 @@ export default {
 						Selected {{ listTypeLowerCased }}
 						<span class="numSelected">({{ numSelected }})</span>
 					</h2>
-					<a @click.stop="clearAll">Clear all</a>
+					<a @click.stop="clearAllSelections">Clear all</a>
 				</div>
 			</template>
 
