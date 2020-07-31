@@ -8,7 +8,10 @@
       • listType: what kind of items are in the list (e.g. 'Metrics')
 
       • configurable: array of { label, value } items that can be checked and drag-and-dropped
-        • `value` can be a template where custom html is needed
+        • {
+            label: what to display next to the checkbox; can be a string or, where custom html is needed, a template 
+            value: identifying data unique to each list item
+          }
       • immutable: array of { label, value } items that are disabled, permanently checked and can NOT be drag-and-dropped (e.g. "pinned" items)
       • selected: array of { label, value } items that are checked and can be unchecked or drag-and-dropped; a subset of `configurable`
 
