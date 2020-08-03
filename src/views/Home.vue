@@ -1,11 +1,13 @@
 <script>
-import SlotOuro from '@/components/SlotOuro'
 import SlotMenuBar from '@/components/SlotMenuBar'
+import SlotOuro from '@/components/SlotOuro'
+import SlotSimple from '@/components/SlotSimple'
 
 export default {
   components: {
-    SlotOuro,
     SlotMenuBar,
+    SlotOuro,
+    SlotSimple,
   },
 }
 </script>
@@ -27,10 +29,17 @@ export default {
 
     <SlotOuro>
       <template #namedSlot>
-        <h2>the Named Slot's content</h2>
+        <h2>the Recursively Named Slot's content</h2>
       </template>
       <p>unnamed slot stuff</p>
     </SlotOuro>
+
+    <SlotSimple>
+      <template #namedSlot>
+        <h2>the Named Slot's content</h2>
+      </template>
+      <p>unnamed slot stuff</p>
+    </SlotSimple>
   </div>
 </template>
 

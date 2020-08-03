@@ -10,7 +10,13 @@ export default {
 
 <template>
   <div class="SlotOuro">
-    <SlotSimple> <slot name="namedSlot" #namedSlot /> <slot /> </SlotSimple>
+    <SlotSimple> 
+      
+      <slot name="namedSlot" slot="namedSlot" />  <!-- Weirdly, this won't work with #namedSlot instead of slot="namedSlot", although it doesn't matter in Home.vue where it's being used --> 
+      
+      <slot /> 
+      
+    </SlotSimple>
   </div>
 </template>
 
