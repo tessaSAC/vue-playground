@@ -21,7 +21,7 @@ export default {
   data: _ => ({
     editableList: {
       configurable: [
-        { label: 'abyssinian', value: '01' },
+        { label: 'abyssinian', value: '01', secret: 'cody' },
         { label: '<strong>american shorthair</strong>', value: '02' },
         { label: 'texel', value: '03' },
         { label: 'teddy', value: '04' },
@@ -29,8 +29,8 @@ export default {
         { label: 'sheltie', value: '06' },
         { label: 'himalayan', value: '07' }
       ],
-      immutable: [{ label: 'sheba', value: '00' }],
-      selected: [{ label: 'abyssinian', value: '01' }],
+      immutable: [{ label: 'sheba', value: '00' }, { label: 'sheba2', value: '08' }],
+      selected: [{ label: 'abyssinian', value: '01', secret: 'cody' }],
     },
 
     inputVModelCustom: 'passed in prop',
@@ -55,6 +55,11 @@ export default {
       openModalFocused: 'toggleModalFocused',
     }),
 
+    printListItemSecret(secret) {
+      if(secret) console.log(secret)
+      else console.log('mum\'s the word')
+    },
+
     updateConfigurableList(newList) {
       this.$set(this.editableList, 'selected', newList)
       this.closeModalFocused()
@@ -69,8 +74,14 @@ export default {
     v-bind="editableList" 
     class="DraggableOrderedList"
     listType="Bbs"
+    v-slot="{ listItem }"
     @updated-configuration="newConfig => editableList.selected = newConfig"
-  />
+  >
+    <div class="slotWithProps">
+      <h3>{{ listItem.label }}</h3>
+      <el-button type="primary" @click="printListItemSecret(listItem.secret)">Tell me your secret!</el-button>
+    </div>
+  </DraggableOrderedList>
 
   <el-button type="warning" plain @click="openModalFocused">Open modal</el-button>
   <ModalDraggableOrderedList 
@@ -108,6 +119,20 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .DraggableOrderedList { 
+    min-width: 35vw; 
+    margin-bottom: 2rem;
+
+    .slotWithProps {
+      background: rgba( #1CDBC4, 0.1 );
+
+      width: 100%;
+      display: inline-flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
 
   .inputs {
     width: 20vw;

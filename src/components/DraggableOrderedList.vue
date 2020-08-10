@@ -17,7 +17,8 @@
 
 	Slots:
 		• searchEmptyState: A centered slot with styled h2 (p & a tags inherit default styles) for view when no results match search
-		• Default content: Link that clears search and focuses on search input
+			• Default content: Link that clears search and focuses on search input
+		• default: A scoped slot with slot prop `listItem` that gets passed to all checkboxes except immutable (includes search results)
 
 	Events:
 		• updated-configuration: Emitted with new array of selected items whenever the order or selection is changed
@@ -58,6 +59,7 @@ export default {
 	},
 
 	data: _ => ({
+		expandedSections: [ 'Selected items' ],
 		itemsSelected: [],
 		searchTerm: '',
 	}),
@@ -95,6 +97,8 @@ export default {
 
 	created() {
 		this.itemsSelected = [...this.selected]
+
+		if(this.itemsAvailable.length) this.expandedSections.push('Available items')
 	},
 
 	methods: {
@@ -120,13 +124,14 @@ export default {
 
 <template>
 <div class="DraggableOrderedList">
-<el-input
-	v-model="searchTerm"
-	:placeholder="`Search ${ listTypeLowerCased }...`"
-	clearable
-	prefix-icon="el-icon-search"
-/>
+	<el-input
+		v-model="searchTerm"
+		:placeholder="`Search ${ listTypeLowerCased }...`"
+		clearable
+		prefix-icon="el-icon-search"
+	/>
 
+	<!-- Search results -->
 	<template v-if="searchTerm">
 		<template v-if="hasSearchResults">
 			<el-checkbox-group class="checkboxGroup" v-model="immutable">
@@ -135,9 +140,13 @@ export default {
 
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item">
-					<span v-html="item.label" />
+					<slot v-bind:listItem="item">
+						<span v-html="item.label" />
+					</slot>
 				</el-checkbox>
 			</el-checkbox-group>
+
+        	<a @click="clearSearchTerm">Return to full list</a>
 		</template>
 
 		<div v-else class="searchEmptyState">
@@ -147,7 +156,8 @@ export default {
 		</div>
 	</template>
 
-	<el-collapse v-else>
+	<!-- Collapsible Lists -->
+	<el-collapse v-else v-model="expandedSections">
 		<el-collapse-item title="Selected items" name="Selected items">
 			<template slot="title">
 				<div class="sectionLabel">
@@ -159,10 +169,14 @@ export default {
 				</div>
 			</template>
 
-			<el-checkbox-group v-model="immutable" class="checkboxGroup immutable">
-				<el-checkbox v-for="item in immutable" :key="item.value" :label="item" disabled ><span v-html="item.label" /></el-checkbox>
+			<!-- Pinned List -->
+			<el-checkbox-group v-model="immutable" class="checkboxGroup undraggable">
+				<el-checkbox v-for="item in immutable" :key="item.value" :label="item" disabled >
+					<span v-html="item.label" />
+				</el-checkbox>
 			</el-checkbox-group>
 
+			<!-- Draggable List -->
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<Draggable v-model="itemsSelected" class="Draggable">
 					<div v-for="item in itemsSelected" :key="item.value" class="checkboxDraggable">
@@ -185,13 +199,16 @@ export default {
 						</svg>
 
 						<el-checkbox :key="item.value" :label="item">
-							<span v-html="item.label" />
+							<slot v-bind:listItem="item">
+								<span v-html="item.label" />
+							</slot>
 						</el-checkbox>
 					</div>
 				</Draggable>
 			</el-checkbox-group>
 		</el-collapse-item>
 
+		<!-- Unselected List -->
 		<el-collapse-item title="Available items" name="Available items">
 			<template slot="title">
 				<div class="sectionLabel">
@@ -203,15 +220,21 @@ export default {
 				</div>
 			</template>
 			
-			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup static">
-				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item"><span v-html="item.label" /></el-checkbox>
+			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup undraggable">
+				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item">
+					<slot v-bind:listItem="item">
+						<span v-html="item.label" />
+					</slot>
+				</el-checkbox>
 			</el-checkbox-group>
 		</el-collapse-item>
 	</el-collapse>
 </div>
 </template>
 
-style <style lang="scss" scoped>
+style <style lang="scss">
+$widthCheckbox: 14px;
+
 .searchEmptyState {
 	height: calc(100% - 100px);  // excludes approximate height of search input
 	display: flex;
@@ -241,25 +264,39 @@ style <style lang="scss" scoped>
 }
 
 .checkboxGroup {
-	padding: 0 1rem;
-}
+	background: rgba( pink, 0.2 );
 
-.checkboxGroup, .Draggable {
+	box-sizing: border-box;
+	padding: 0 1rem;
 	display: flex;
 	flex-direction: column;
-	align-items: flex-start;
+	
+	&.undraggable {
+		margin-left: 24px;
+	}
 
-	&.static {
-		position: relative;
-		left: 24px;
+	.el-checkbox { 
+		margin-right: 0; 
+	}
+	.el-checkbox__label {
+		background: rgba( orange, 0.2 );
+		width: calc(100% - #{ $widthCheckbox });
+	}
+	
+	label {
+		background: rgba( rebeccapurple, 0.1 );
+
+		width: 100%;
+		text-align: left;
 	}
 }
+
 .checkboxDraggable {
-	display: flex;
-	align-items: center;
+    display: flex;
+    align-items: center;
 
 	svg { cursor: move; }
 
-	label { margin-left:  14px; }
+	label { margin-left:  $widthCheckbox; }
 }
 </style>
