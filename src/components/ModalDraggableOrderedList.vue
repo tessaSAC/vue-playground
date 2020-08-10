@@ -1,6 +1,8 @@
 <script>
 import DraggableOrderedList from './DraggableOrderedList'
 
+import { isEqual } from 'lodash'
+
 export default {
     components: {
         DraggableOrderedList,
@@ -15,6 +17,12 @@ export default {
             type: String,
             default: 'items',
         },
+    },
+
+    computed: {
+        noChangesMade() {
+            return isEqual(this.$attrs.selected, this.temporaryChanges)
+        }
     },
 
     methods: {
@@ -47,7 +55,7 @@ export default {
 
         <footer>
             <el-button type="info" plain @click="emitCancel">Cancel</el-button>
-            <el-button type="success" plain @click="emitFinalConfiguration">Save</el-button>
+            <el-button :disabled="noChangesMade" type="success" plain @click="emitFinalConfiguration">Save</el-button>
         </footer>
     </div>
 </portal>

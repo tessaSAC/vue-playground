@@ -135,11 +135,11 @@ export default {
 	<template v-if="searchTerm">
 		<template v-if="hasSearchResults">
 			<el-checkbox-group class="checkboxGroup" v-model="immutable">
-				<el-checkbox v-for="item in resultsImmutable" :key="item.value" :label="item" disabled><span v-html="item.label" /></el-checkbox>
+				<el-checkbox v-for="item in resultsImmutable" :key="item.value" :label="item" class="checkbox" disabled><span v-html="item.label" /></el-checkbox>
 			</el-checkbox-group>
 
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
-				<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item">
+				<el-checkbox v-for="item in resultsConfigurable" :key="item.value" :label="item" class="checkbox">
 					<slot v-bind:listItem="item">
 						<span v-html="item.label" />
 					</slot>
@@ -171,7 +171,7 @@ export default {
 
 			<!-- Pinned List -->
 			<el-checkbox-group v-model="immutable" class="checkboxGroup undraggable">
-				<el-checkbox v-for="item in immutable" :key="item.value" :label="item" disabled >
+				<el-checkbox v-for="item in immutable" :key="item.value" :label="item" disabled class="checkbox">
 					<span v-html="item.label" />
 				</el-checkbox>
 			</el-checkbox-group>
@@ -179,7 +179,7 @@ export default {
 			<!-- Draggable List -->
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup">
 				<Draggable v-model="itemsSelected" class="Draggable">
-					<div v-for="item in itemsSelected" :key="item.value" class="checkboxDraggable">
+					<div v-for="item in itemsSelected" :key="item.value" class="checkbox checkboxDraggable">
 						<svg 
 							fill="none" 
 							height="14" 
@@ -221,7 +221,7 @@ export default {
 			</template>
 			
 			<el-checkbox-group v-model="itemsSelected" class="checkboxGroup undraggable">
-				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item">
+				<el-checkbox v-for="item in itemsAvailable" :key="item.value" :label="item" class="checkbox">
 					<slot v-bind:listItem="item">
 						<span v-html="item.label" />
 					</slot>
@@ -233,7 +233,7 @@ export default {
 </template>
 
 style <style lang="scss">
-$widthCheckbox: 14px;
+$checkboxHorizontalMargin: 10px;
 
 .searchEmptyState {
 	height: calc(100% - 100px);  // excludes approximate height of search input
@@ -272,15 +272,19 @@ $widthCheckbox: 14px;
 	flex-direction: column;
 	
 	&.undraggable {
-		margin-left: 24px;
+		margin-left: $checkboxHorizontalMargin + 11px;  // width of Draggable icon
 	}
+
+    .checkbox + .checkbox {
+      margin-top: 4px;
+    }
 
 	.el-checkbox { 
 		margin-right: 0; 
 	}
 	.el-checkbox__label {
 		background: rgba( orange, 0.2 );
-		width: calc(100% - #{ $widthCheckbox });
+		width: calc(100% - #{ $checkboxHorizontalMargin * 2 });
 	}
 	
 	label {
@@ -297,6 +301,6 @@ $widthCheckbox: 14px;
 
 	svg { cursor: move; }
 
-	label { margin-left:  $widthCheckbox; }
+	label { margin-left:  $checkboxHorizontalMargin; }
 }
 </style>
