@@ -232,11 +232,12 @@ export default {
 </div>
 </template>
 
-style <style lang="scss">
+<style lang="scss">
 $checkboxHorizontalMargin: 10px;
 
 .searchEmptyState {
 	height: calc(100% - 100px);  // excludes approximate height of search input
+    min-height: 30px;  // otherwise above rule will move inline content behind input
 	display: flex;
 	flex-direction: column;
 	align-items: center;

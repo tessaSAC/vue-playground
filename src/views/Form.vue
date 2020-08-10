@@ -74,8 +74,8 @@ export default {
     v-bind="editableList" 
     class="DraggableOrderedList"
     listType="Bbs"
-    v-slot="{ listItem }"
     @updated-configuration="newConfig => editableList.selected = newConfig"
+    v-slot="{ listItem scopsc}"
   >
     <div class="slotWithProps">
       <h3>{{ listItem.label }}</h3>
@@ -87,10 +87,22 @@ export default {
   <ModalDraggableOrderedList 
     v-if="modalFocusedIsOpen" 
     v-bind="editableList"
+    class="ModalDraggableOrderedList"
     listType="Bbs"
     @save="updateConfigurableList"
     @cancel="closeModalFocused" 
-  />
+  >
+    <template #searchEmptyState>
+      <div><h3>no results found! this is a slot.</h3></div>
+    </template>
+
+    <template v-slot="{ listItem }">
+      <div class="slotWithProps">
+        <h3>{{ listItem.label }}</h3>
+        <el-button type="primary" @click="printListItemSecret(listItem.secret)">Tell me your secret!</el-button>
+      </div>
+    </template>
+  </ModalDraggableOrderedList>
 
   <BaseVerticalSpacing2 />
 
@@ -143,5 +155,15 @@ export default {
     align-items: center;
     justify-content: space-between;
   }
+}
+
+// For ModalDraggableOrderedList, because of the portal it's not a child of Form.vue
+.slotWithProps {
+  border: 2px solid steelblue;
+
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
